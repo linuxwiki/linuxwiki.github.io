@@ -1,4 +1,2 @@
-linuxwiki.github.io
+Linux Wiki By Jerry and Kumu
 ===================
-
-Linux Wiki By jerry&amp;&amp;kumu
