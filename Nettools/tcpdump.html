@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+        <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+        <title>tcpdump - Linux Wiki</title>
+        <meta name="keywords" content=""/>
+        <meta name="description" content=""/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <div id="container">
+            
+<div id="header">
+  <div id="post-nav"><a href="/">Home</a>&nbsp;»&nbsp;<a href="/#Nettools">Nettools</a>&nbsp;»&nbsp;tcpdump</div>
+</div>
+<div class="clearfix"></div>
+<div id="title">tcpdump</div>
+  <div id="content">
+  <h1 id="tcpdump-by">tcpdump使用技巧 By 潜水大叔</h1>
+<p>一般情况下，非HTTP协议的网络分析，在服务器端用<code>tcpdump</code>比较多，在客户端用wireshark比较多，两个抓包软件的语法是一样的。</p>
+<h2 id="_1">基本语法</h2>
+<h3 id="_2">过滤主机</h3>
+<ul>
+<li>抓取所有经过eth1，目的或源地址是192.168.1.1的网络数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 host 192.168.1.1
+</pre></div>
+
+
+<ul>
+<li>指定源地址</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 src host 192.168.1.1
+</pre></div>
+
+
+<ul>
+<li>指定目的地址</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 dst host 192.168.1.1
+</pre></div>
+
+
+<h3 id="_3">过滤端口</h3>
+<ul>
+<li>抓取所有经过eth1，目的或源端口是25的网络数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 port 25
+</pre></div>
+
+
+<ul>
+<li>指定源端口</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 src port 25
+</pre></div>
+
+
+<ul>
+<li>指定目的端口</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 dst port 25
+</pre></div>
+
+
+<h3 id="_4">网络过滤</h3>
+<div class="hlcode"><pre>tcpdump -i eth1 net 192.168
+tcpdump -i eth1 src net 192.168
+tcpdump -i eth1 dst net 192.168
+</pre></div>
+
+
+<h3 id="_5">协议过滤</h3>
+<div class="hlcode"><pre>tcpdump -i eth1 arp
+tcpdump -i eth1 ip
+tcpdump -i eth1 tcp
+tcpdump -i eth1 udp
+tcpdump -i eth1 icmp
+</pre></div>
+
+
+<h3 id="_6">常用表达式</h3>
+<div class="hlcode"><pre><span class="err">非</span> <span class="o">:</span> <span class="o">!</span> <span class="n">or</span> <span class="s">&quot;not&quot;</span> <span class="p">(</span><span class="err">去掉双引号</span><span class="p">)</span>  
+<span class="err">且</span> <span class="o">:</span> <span class="o">&amp;&amp;</span> <span class="n">or</span> <span class="s">&quot;and&quot;</span>  
+<span class="err">或</span> <span class="o">:</span> <span class="o">||</span> <span class="n">or</span> <span class="s">&quot;or&quot;</span>
+</pre></div>
+
+
+<ul>
+<li>抓取所有经过eth1，目的地址是192.168.1.254或192.168.1.200端口是80的TCP数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;((tcp) and (port 80) and ((dst host 192.168.1.254) or (dst host 192.168.1.200)))&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓取所有经过eth1，目标MAC地址是00:01:02:03:04:05的ICMP数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;((icmp) and ((ether dst host 00:01:02:03:04:05)))&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓取所有经过eth1，目的网络是192.168，但目的主机不是192.168.1.200的TCP数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;((tcp) and ((dst net 192.168) and (not dst host 192.168.1.200)))&#39;</span>
+</pre></div>
+
+
+<h2 id="_7">高级包头过滤</h2>
+<p>首先了解如何从包头过滤信息</p>
+<div class="hlcode"><pre><span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span>          <span class="o">:</span> <span class="err">过滤从</span><span class="n">x</span><span class="err">字节开始的</span><span class="n">y</span><span class="err">字节数。比如</span><span class="n">ip</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="err">过滤出</span><span class="mi">3</span><span class="err">、</span><span class="mi">4</span><span class="err">字节（第一字节从</span><span class="mi">0</span><span class="err">开始排）</span>
+<span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>  <span class="o">:</span> <span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span><span class="err">和</span><span class="n">z</span><span class="err">的与操作为</span><span class="mi">0</span>
+<span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">z</span> <span class="o">!=</span><span class="mi">0</span>  <span class="o">:</span> <span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span><span class="err">和</span><span class="n">z</span><span class="err">的与操作不为</span><span class="mi">0</span>
+<span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">z</span>  <span class="o">:</span> <span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span><span class="err">和</span><span class="n">z</span><span class="err">的与操作为</span><span class="n">z</span>
+<span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span>      <span class="o">:</span> <span class="n">proto</span><span class="p">[</span><span class="n">x</span><span class="o">:</span><span class="n">y</span><span class="p">]</span><span class="err">等于</span><span class="n">z</span>
+</pre></div>
+
+
+<p>操作符 : &gt;, &lt;, &gt;=, &lt;=, =, !=</p>
+<h3 id="ip">IP头</h3>
+<div class="hlcode"><pre> <span class="m">0</span>                   <span class="m">1</span>                   <span class="m">2</span>                   <span class="m">3</span>
+ <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">0</span> <span class="m">1</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>Version<span class="o">|</span>  IHL  <span class="o">|</span>Type of Service<span class="o">|</span>          Total Length         <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>         Identification        <span class="o">|</span>Flags<span class="o">|</span>      Fragment Offset    <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>  Time to Live <span class="o">|</span>    Protocol   <span class="o">|</span>         Header Checksum       <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                       Source Address                          <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                    Destination Address                        <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                    Options                    <span class="o">|</span>    Padding    <span class="o">|</span> <span class="o">&lt;--</span> optional
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                            DATA <span class="kc">...</span>                           <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<p>本文只针对IPv4。</p>
+<h3 id="ip_1">IP选项设置了吗？</h3>
+<p>“一般”的IP头是20字节，但IP头有选项设置，不能直接从偏移21字节处读取数据。IP头有个长度字段可以知道头长度是否大于20字节。</p>
+<div class="hlcode"><pre> <span class="o">+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span><span class="n">Version</span><span class="o">|</span>  <span class="n">IHL</span>  <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<p>通常第一个字节的二进制值是：01000101，分成两个部分：</p>
+<p>0100 = 4 表示IP版本
+0101 = 5 表示IP头32 bit的块数，5 x 32 bits = 160 bits or 20 bytes</p>
+<p>如果第一字节第二部分的值大于5，那么表示头有IP选项。</p>
+<p>下面介绍两种过滤方法（第一种方法比较操蛋，可忽略）：</p>
+<p>a. 比较第一字节的值是否大于01000101，这可以判断IPv4带IP选项的数据和IPv6的数据。</p>
+<p>01000101十进制等于69，计算方法如下（小提示：用计算器更方便）</p>
+<div class="hlcode"><pre><span class="mi">0</span> <span class="o">:</span> <span class="mi">0</span>  <span class="o">\</span>
+<span class="mi">1</span> <span class="o">:</span> <span class="mi">2</span><span class="o">^</span><span class="mi">6</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">\</span> <span class="err">第一部分</span> <span class="o">(</span><span class="n">IP</span><span class="err">版本</span><span class="o">)</span>
+<span class="mi">0</span> <span class="o">:</span> <span class="mi">0</span>   <span class="o">/</span>
+<span class="mi">0</span> <span class="o">:</span> <span class="mi">0</span>  <span class="o">/</span>
+<span class="o">-</span>
+<span class="mi">0</span> <span class="o">:</span> <span class="mi">0</span>  <span class="o">\</span>
+<span class="mi">1</span> <span class="o">:</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">4</span>  <span class="o">\</span> <span class="err">第二部分</span> <span class="o">(</span><span class="err">头长度</span><span class="o">)</span>
+<span class="mi">0</span> <span class="o">:</span> <span class="mi">0</span>   <span class="o">/</span>
+<span class="mi">1</span> <span class="o">:</span> <span class="mi">2</span><span class="o">^</span><span class="mi">0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span>
+</pre></div>
+
+
+<p>64 + 4 + 1 = 69</p>
+<p>如果设置了IP选项，那么第一自己是01000110（十进制70），过滤规则：</p>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[0] &gt; 69&#39;</span>
+</pre></div>
+
+
+<p>IPv6的数据也会匹配，看看第二种方法。</p>
+<p>b. 位操作</p>
+<p>0100 0101 : 第一字节的二进制<br />
+0000 1111 : 与操作<br />
+&lt;=========<br />
+0000 0101 : 结果  </p>
+<p>正确的过滤方法</p>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[0] &amp; 15 &gt; 5&#39;</span>
+</pre></div>
+
+
+<p>或者</p>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[0] &amp; 0x0f &gt; 5&#39;</span>
+</pre></div>
+
+
+<h3 id="_8">分片标记</h3>
+<p>当发送端的MTU大于到目的路径链路上的MTU时就会被分片，这段话有点拗口，权威的请参考《TCP/IP详解》。唉，32借我的书没还，只能凑合写，大家记得看书啊。</p>
+<p>分片信息在IP头的第七和第八字节：</p>
+<div class="hlcode"><pre> <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span><span class="n">Flags</span><span class="o">|</span>      <span class="n">Fragment</span> <span class="n">Offset</span>    <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<p>Bit 0:  保留，必须是0<br />
+Bit 1:  (DF) 0 = 可能分片, 1 = 不分片<br />
+Bit 2:  (MF) 0 = 最后的分片, 1 = 还有分片  </p>
+<p>Fragment Offset字段只有在分片的时候才使用。</p>
+<p>要抓带DF位标记的不分片的包，第七字节的值应该是：</p>
+<p>01000000 = 64</p>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[6] = 64&#39;</span>
+</pre></div>
+
+
+<h3 id="_9">抓分片包</h3>
+<ul>
+<li>匹配MF，分片包</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[6] = 32&#39;</span>
+</pre></div>
+
+
+<p>最后分片包的开始3位是0，但是有Fragment Offset字段。</p>
+<ul>
+<li>匹配分片和最后分片</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;((ip[6:2] &gt; 0) and (not ip[6] = 64))&#39;</span>
+</pre></div>
+
+
+<p>测试分片可以用下面的命令：</p>
+<div class="hlcode"><pre>ping -M want -s 3000 192.168.1.1
+</pre></div>
+
+
+<h3 id="ttl">匹配小TTL</h3>
+<p>TTL字段在第九字节，并且正好是完整的一个字节，TTL最大值是255，二进制为11111111。</p>
+<p>可以用下面的命令验证一下：</p>
+<div class="hlcode"><pre><span class="nv">$ </span>ping -M want -s 3000 -t 256 192.168.1.200
+ping: ttl 256 out of range
+</pre></div>
+
+
+<div class="hlcode"><pre> <span class="o">+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>  <span class="n">Time</span> <span class="n">to</span> <span class="n">Live</span> <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<ul>
+<li>在网关可以用下面的命令看看网络中谁在使用traceroute</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[8] &lt; 5&#39;</span>
+</pre></div>
+
+
+<h3 id="x">抓大于X字节的包</h3>
+<ul>
+<li>大于600字节</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;ip[2:2] &gt; 600&#39;</span>
+</pre></div>
+
+
+<h3 id="ip_2">更多的IP过滤</h3>
+<p>首先还是需要知道TCP基本结构，再次推荐《TCP/IP详解》，卷一就够看的了，避免走火入魔。</p>
+<ul>
+<li>TCP头</li>
+</ul>
+<div class="hlcode"><pre> <span class="mi">0</span>                   <span class="mi">1</span>                   <span class="mi">2</span>                   <span class="mi">3</span>
+ <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">0</span> <span class="mi">1</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>          <span class="n">Source</span> <span class="n">Port</span>          <span class="o">|</span>       <span class="n">Destination</span> <span class="n">Port</span>        <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                        <span class="n">Sequence</span> <span class="n">Number</span>                        <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                    <span class="n">Acknowledgment</span> <span class="n">Number</span>                      <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>  <span class="n">Data</span> <span class="o">|</span>       <span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">E</span><span class="o">|</span><span class="n">U</span><span class="o">|</span><span class="n">A</span><span class="o">|</span><span class="n">P</span><span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">F</span><span class="o">|</span>                               <span class="o">|</span>
+ <span class="o">|</span> <span class="n">Offset</span><span class="o">|</span>  <span class="n">Res</span><span class="p">.</span> <span class="o">|</span><span class="n">W</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">Y</span><span class="o">|</span><span class="n">I</span><span class="o">|</span>            <span class="n">Window</span>             <span class="o">|</span>
+ <span class="o">|</span>       <span class="o">|</span>       <span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">E</span><span class="o">|</span><span class="n">G</span><span class="o">|</span><span class="n">K</span><span class="o">|</span><span class="n">H</span><span class="o">|</span><span class="n">T</span><span class="o">|</span><span class="n">N</span><span class="o">|</span><span class="n">N</span><span class="o">|</span>                               <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>           <span class="n">Checksum</span>            <span class="o">|</span>         <span class="n">Urgent</span> <span class="n">Pointer</span>        <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                    <span class="n">Options</span>                    <span class="o">|</span>    <span class="n">Padding</span>    <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span>                             <span class="n">data</span>                              <span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<ul>
+<li>抓取源端口大于1024的TCP数据包</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[0:2] &gt; 1024&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>匹配TCP数据包的特殊标记</li>
+</ul>
+<p>TCP标记定义在TCP头的第十四个字节</p>
+<div class="hlcode"><pre> <span class="o">+-+-+-+-+-+-+-+-+</span>
+ <span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">E</span><span class="o">|</span><span class="n">U</span><span class="o">|</span><span class="n">A</span><span class="o">|</span><span class="n">P</span><span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">F</span><span class="o">|</span>
+ <span class="o">|</span><span class="n">W</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">C</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">S</span><span class="o">|</span><span class="n">Y</span><span class="o">|</span><span class="n">I</span><span class="o">|</span>
+ <span class="o">|</span><span class="n">R</span><span class="o">|</span><span class="n">E</span><span class="o">|</span><span class="n">G</span><span class="o">|</span><span class="n">K</span><span class="o">|</span><span class="n">H</span><span class="o">|</span><span class="n">T</span><span class="o">|</span><span class="n">N</span><span class="o">|</span><span class="n">N</span><span class="o">|</span>
+ <span class="o">+-+-+-+-+-+-+-+-+</span>
+</pre></div>
+
+
+<p>重复一下TCP三次握手，两个主机是如何勾搭的：</p>
+<ol>
+<li>源发送SYN</li>
+<li>目标回答SYN, ACK</li>
+<li>源发送ACK</li>
+</ol>
+<p>没女朋友的童鞋要学习一下：<br />
+1. MM，你的手有空吗？-<em>-<br />
+2. 有空，你呢？\~</em>~<br />
+3. 我也有空 *_*  </p>
+<p>失败的loser是酱紫的：<br />
+1. MM，这是你掉的板砖吗？(SYN) ￣▽￣<br />
+2. 不是，找拍啊？(RST-ACK) ˋ﹏ˊ  </p>
+<ul>
+<li>只抓SYN包，第十四字节是二进制的00000010，也就是十进制的2</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] = 2&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓SYN, ACK （00010010 or 18）</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] = 18&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓SYN或者SYN-ACK</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] &amp; 2 = 2&#39;</span>
+</pre></div>
+
+
+<p>用到了位操作，就是不管ACK位是啥。</p>
+<ul>
+<li>抓PSH-ACK</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] = 24&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓所有包含FIN标记的包（FIN通常和ACK一起，表示幽会完了，回见）</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] &amp; 1 = 1&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓RST（勾搭没成功，伟大的greatwall对她认为有敏感信息的连接发RST包，典型的棒打鸳鸯）</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[13] &amp; 4 = 4&#39;</span>
+</pre></div>
+
+
+<p>下图详细描述了TCP各种状态的标记，方便分析。</p>
+<p><img alt="tcp_state_machine.jpg" src="res/tcp_state_machine.jpg" /></p>
+<h3 id="_10">大叔注</h3>
+<p>tcpdump考虑了一些数字恐惧症者的需求，提供了部分常用的字段偏移名字：</p>
+<p>icmptype  (ICMP类型字段)<br />
+icmpcode  (ICMP符号字段)<br />
+tcpflags  (TCP标记字段)  </p>
+<p>ICMP类型值有：</p>
+<p>icmp-echoreply, icmp-unreach, icmp-sourcequench, icmp-redirect, icmp-echo, icmp-routeradvert, icmp-routersolicit, icmp-timxceed, icmp-paramprob, icmp-tstamp, icmp-tstampreply, icmp-ireq, icmp-ireqreply, icmp-maskreq, icmp-maskreply</p>
+<p>TCP标记值：</p>
+<p>tcp-fin, tcp-syn, tcp-rst, tcp-push, tcp-push, tcp-ack, tcp-urg</p>
+<p>这样上面按照TCP标记位抓包的就可以写直观的表达式了：</p>
+<ul>
+<li>只抓SYN包</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[tcpflags] = tcp-syn&#39;</span>
+</pre></div>
+
+
+<ul>
+<li>抓SYN, ACK</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[tcpflags] &amp; tcp-syn != 0 and tcp[tcpflags] &amp; tcp-ack != 0&#39;</span>
+</pre></div>
+
+
+<h3 id="smtp">抓SMTP数据</h3>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;((port 25) and (tcp[(tcp[12]&gt;&gt;2):4] = 0x4d41494c))&#39;</span>
+</pre></div>
+
+
+<p>抓取数据区开始为"MAIL"的包，"MAIL"的十六进制为0x4d41494c。</p>
+<h3 id="http-get">抓HTTP GET数据</h3>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[(tcp[12]&gt;&gt;2):4] = 0x47455420&#39;</span>
+</pre></div>
+
+
+<p>"GET "的十六进制是47455420</p>
+<h3 id="ssh">抓SSH返回</h3>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;tcp[(tcp[12]&gt;&gt;2):4] = 0x5353482D&#39;</span>
+</pre></div>
+
+
+<p>"SSH-"的十六进制是0x5353482D</p>
+<div class="hlcode"><pre>tcpdump -i eth1 <span class="s1">&#39;(tcp[(tcp[12]&gt;&gt;2):4] = 0x5353482D) and (tcp[((tcp[12]&gt;&gt;2)+4):2] = 0x312E)&#39;</span>
+</pre></div>
+
+
+<p>抓老版本的SSH返回信息，如"SSH-1.99.."</p>
+<h2 id="_11">大叔注</h2>
+<p>如果是为了查看数据内容，建议用<code>tcpdump -s 0 -w filename</code>把数据包都保存下来，然后用wireshark的Follow TCP Stream/Follow UDP Stream来查看整个会话的内容。</p>
+<p><code>-s 0</code>是抓取完整数据包，否则默认只抓68字节。</p>
+<p>另外，用tcpflow也可以方便的获取TCP会话内容，支持tcpdump的各种表达式。</p>
+<h3 id="udp">UDP头</h3>
+<div class="hlcode"><pre>  <span class="mi">0</span>      <span class="mi">7</span> <span class="mi">8</span>     <span class="mi">15</span> <span class="mi">16</span>    <span class="mi">23</span> <span class="mi">24</span>    <span class="mi">31</span>
+ <span class="o">+--------+--------+--------+--------+</span>
+ <span class="o">|</span>     <span class="n">Source</span>      <span class="o">|</span>   <span class="n">Destination</span>   <span class="o">|</span>
+ <span class="o">|</span>      <span class="n">Port</span>       <span class="o">|</span>      <span class="n">Port</span>       <span class="o">|</span>
+ <span class="o">+--------+--------+--------+--------+</span>
+ <span class="o">|</span>                 <span class="o">|</span>                 <span class="o">|</span>
+ <span class="o">|</span>     <span class="n">Length</span>      <span class="o">|</span>    <span class="n">Checksum</span>     <span class="o">|</span>
+ <span class="o">+--------+--------+--------+--------+</span>
+ <span class="o">|</span>                                   <span class="o">|</span>
+ <span class="o">|</span>              <span class="n">DATA</span> <span class="p">...</span>             <span class="o">|</span>
+ <span class="o">+-----------------------------------+</span>
+</pre></div>
+
+
+<ul>
+<li>抓DNS请求数据</li>
+</ul>
+<div class="hlcode"><pre>tcpdump -i eth1 udp dst port 53
+</pre></div>
+
+
+<h3 id="_12">其他</h3>
+<p><code>-c</code>参数对于运维人员来说也比较常用，因为流量比较大的服务器，靠人工CTRL+C还是抓的太多，甚至导致服务器宕机，于是可以用<code>-c</code>参数指定抓多少个包。</p>
+<div class="hlcode"><pre><span class="nb">time </span>tcpdump -nn -i eth0 <span class="s1">&#39;tcp[tcpflags] = tcp-syn&#39;</span> -c 10000 &gt; /dev/null
+</pre></div>
+
+
+<p>上面的命令计算抓10000个SYN包花费多少时间，可以判断访问量大概是多少。</p>
+<h2 id="_13">参考资料</h2>
+<blockquote>
+<p><a href="http://www.wains.be/pub/networking/tcpdump_advanced_filters.txt">tcpdump advanced filters</a></p>
+</blockquote>
+</div>
+
+        </div>
+        <div id="footer">
+            <span>
+                Copyright © 2012-2014 .
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+            </span>
+        </div>
+        
+    </body>
+</html>
