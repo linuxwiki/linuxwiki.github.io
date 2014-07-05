@@ -10,19 +10,16 @@ Tags: simple, single-columns, code, codehighlight, white, markdown
 
 /* Global Configuration */
 /* IE6 ignores this and uses default size of 16pt */
-html>body { font-size: 14px; }
+html>body {
+}
 
 html {
-    font-size: 100%;
     overflow-y: scroll;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
 
 body {
-    font-family: "Helvetica Neue", "Segoe UI", Arial, Sans-Serif;
-    line-height: 1.5em;
-    background-color: whitesmoke;
 }
 
 a { color: #0645ad; text-decoration: none; }
@@ -30,20 +27,11 @@ a:visited { color: #0b0080; }
 a:hover { color: #06e; text-decoration: underline; }
 a:active { color: #faa700; }
 
-p { margin: 0 0 1.5em 0; text-align: justify; }
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: normal;
-    color: #111;
-    line-height: 1em;
+p {
+    margin: 0 0 1.5em 0;
+    line-height: 1.8em;
+    text-align: justify;
 }
-
-h1 { font-size: 2.0em; }
-h2 { font-size: 1.6em; border-bottom: 1px solid #ddd; padding-bottom: 5px; overflow:hidden }
-h3 { font-size: 1.4em; }
-h4 { font-size: 1.2em; }
-h5 { font-size: 1.0em; }
-h6 { font-size: 0.8em; }
 
 blockquote {
     color: #666;
@@ -61,14 +49,13 @@ hr {
 b, strong { font-weight: bold; }
 
 ul, ol {
-    margin: 1.5em 0;
     padding-left: 1.5em;
     line-height: 1.5em;
 }
 
-ul li { list-style-type: square; }
+/*ul li { list-style-type: square; }*/
 
-ul li p { margin: 0; }
+/*ul li p { margin: 0; }*/
 
 img {
     border: 0;
@@ -90,23 +77,18 @@ td {
 
 /* Optimization for pre and code tag */
 pre, code { 
-    font-family: Consolas, "DejaVu Sans Mono", "Lucida Console", Monaco, Andale Mono, "MS Gothic", monospace;
-    font-size: 13px;
-    border-radius: 3px;
+    /*font-family: Consolas, "DejaVu Sans Mono", "Lucida Console", Monaco, Andale Mono, "MS Gothic", monospace;*/
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     overflow: auto;
 }
 
 code {
-    color: #666;
-    background-color: #eee;
     margin: 0 2px;
     padding: 1px 3px;
 }
 
-pre { 
-    border: 1px solid #eee;
+pre {
     padding: 8px 12px;
     white-space: pre;
     white-space: -moz-pre-wrap; /* Firefox */
@@ -119,21 +101,14 @@ pre {
 pre code {
     border: 0px !important;
     padding: 0;
-    color: #000;
-    background-color: #f8f8f8;
 }
 
 /* Custom Configuration */
 #container {
-    background: white;
-    width: 50em;
-    line-height: 1.5em;
-    margin: 1.5em auto 3em auto;
-    padding: 1.5em 2em;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 8px #aaa;
-    -webkit-box-shadow: 2px 2px 8px #aaa;
-    -moz-box-shadow: 2px 2px 8px #aaa;
+    width: 850px;
+    margin: 10px auto 20px auto;
+    padding:30px 50px 50px 50px;
+    border: 1px solid #eee;
 }
 
 #wiki_title, #title {
