@@ -78,6 +78,7 @@ td {
 /* Optimization for pre and code tag */
 pre, code { 
     /*font-family: Consolas, "DejaVu Sans Mono", "Lucida Console", Monaco, Andale Mono, "MS Gothic", monospace;*/
+    border: 1px solid #eee;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     overflow: auto;
@@ -108,7 +109,7 @@ pre code {
     width: 850px;
     margin: 10px auto 20px auto;
     padding:30px 50px 50px 50px;
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
 }
 
 #wiki_title, #title {
