@@ -234,14 +234,17 @@
 
 
 <h2 id="44-markdown-markdown-mode">4.4 Markdown: <a href="http://jblevins.org/projects/markdown-mode/">markdown-mode</a></h2>
-<p>(autoload 'markdown-mode "~/.emacs.d/lisp/markdown-mode/markdown-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\.md" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\.markdown" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\.txt" . markdown-mode) auto-mode-alist))</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">autoload</span> <span class="err">&#39;</span><span class="n">markdown</span><span class="o">-</span><span class="n">mode</span> <span class="s">&quot;~/.emacs.d/lisp/markdown-mode/markdown-mode.el&quot;</span>
+  <span class="s">&quot;Major mode for editing Markdown files&quot;</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">(</span><span class="n">setq</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span>
+      <span class="p">(</span><span class="n">cons</span> <span class="err">&#39;</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">.md&quot;</span> <span class="p">.</span> <span class="n">markdown</span><span class="o">-</span><span class="n">mode</span><span class="p">)</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span><span class="p">))</span>
+<span class="p">(</span><span class="n">setq</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span>
+      <span class="p">(</span><span class="n">cons</span> <span class="err">&#39;</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">.markdown&quot;</span> <span class="p">.</span> <span class="n">markdown</span><span class="o">-</span><span class="n">mode</span><span class="p">)</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span><span class="p">))</span>
+<span class="p">(</span><span class="n">setq</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span>
+      <span class="p">(</span><span class="n">cons</span> <span class="err">&#39;</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">.txt&quot;</span> <span class="p">.</span> <span class="n">markdown</span><span class="o">-</span><span class="n">mode</span><span class="p">)</span> <span class="k">auto</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">alist</span><span class="p">))</span>
+</pre></div>
+
+
 <h2 id="45-python-pythonel">4.5 Python: <a href="https://github.com/fgallina/python.el">python.el</a></h2>
 <p>推荐使用 python.el 而不是 <a href="https://github.com/klen/python-mode">python-mode</a>。</p>
 <div class="hlcode"><pre><span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">python</span><span class="p">)</span>
