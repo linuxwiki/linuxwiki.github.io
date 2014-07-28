@@ -21,65 +21,73 @@
 <li><a href="#docker">轻量级虚拟化Docker</a><ul>
 <li><a href="#docker_1">一、Docker基本介绍</a></li>
 <li><a href="#docker_2">二、docker 安装配置</a><ul>
-<li><a href="#docker-install">Docker install</a></li>
+<li><a href="#21docker-install">2.1、Docker install</a></li>
 </ul>
 </li>
-<li><a href="#docker-images">Docker images</a><ul>
-<li><a href="#search-index-images">Search index images</a></li>
-<li><a href="#pull-images">Pull images</a></li>
-<li><a href="#running-an-interactive-shell">Running an interactive shell</a></li>
-<li><a href="#_1">相关快捷键</a></li>
+<li><a href="#docker-images">三、Docker images</a><ul>
+<li><a href="#31search-index-images">3.1、Search index images</a></li>
+<li><a href="#32pull-images">3.2、Pull images</a></li>
+<li><a href="#33running-an-interactive-shell">3.3、Running an interactive shell</a></li>
+<li><a href="#34">3.4、相关快捷键</a></li>
 </ul>
 </li>
-<li><a href="#docker_3">三、docker常用命令</a><ul>
-<li><a href="#docker-help">docker help</a><ul>
-<li><a href="#docker-search">docker search</a></li>
-<li><a href="#docker-info">docker info</a></li>
-<li><a href="#docker-pull-docker-push">docker pull &amp;&amp; docker push</a></li>
-<li><a href="#docker-images_1">四、docker images</a></li>
-<li><a href="#docker-rmi">docker rmi</a></li>
-<li><a href="#docker-run">docker run</a></li>
-<li><a href="#docker-startstopkillrestartpauseunpausermcommitinspect">docker start|stop|kill|restart|pause|unpause|rm|commit|inspect</a></li>
+<li><a href="#docker_3">四、docker常用命令</a><ul>
+<li><a href="#41docker-help">4.1、docker help</a><ul>
+<li><a href="#411docker-search">4.1.1、docker search</a></li>
+<li><a href="#412docker-info">4.1.2、docker info</a></li>
+<li><a href="#413docker-pull-docker-push">4.1.3、docker pull &amp;&amp; docker push</a></li>
+<li><a href="#414docker-images">4.1.4、docker images</a></li>
+<li><a href="#415docker-rmi">4.1.5、docker rmi</a></li>
+<li><a href="#416docker-run">4.1.6、docker run</a></li>
+<li><a href="#417docker-startstopkill">4.1.7、docker start|stop|kill... ...</a></li>
 </ul>
 </li>
-<li><a href="#_2">参考文档</a></li>
+<li><a href="#42">4.2、参考文档</a></li>
 </ul>
 </li>
 <li><a href="#docker_4">五、docker端口映射</a><ul>
-<li><a href="#_3">自动映射端口</a></li>
-<li><a href="#_4">绑定端口到指定接口</a><ul>
-<li><a href="#tcp">绑定TCP端口</a></li>
-<li><a href="#udp">绑定UDP端口</a></li>
+<li><a href="#51">5.1、自动映射端口</a></li>
+<li><a href="#52">5.2、绑定端口到指定接口</a><ul>
+<li><a href="#521tcp">5.2.1、绑定TCP端口</a></li>
+<li><a href="#522udp">5.2.2、绑定UDP端口</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_5">六、配置网络</a><ul>
-<li><a href="#_6">列出当前主机网桥</a></li>
-<li><a href="#docker0-ip">查看当前docker0 ip</a></li>
-<li><a href="#_7">运行一个容器</a><ul>
-<li><a href="#ip">使用特定范围的IP</a></li>
+<li><a href="#_1">六、配置网络</a><ul>
+<li><a href="#61">6.1、列出当前主机网桥</a></li>
+<li><a href="#62docker0-ip">6.2、查看当前docker0 ip</a></li>
+<li><a href="#63">6.3、运行一个容器</a><ul>
+<li><a href="#631ip">6.3.1、使用特定范围的IP</a></li>
 </ul>
 </li>
-<li><a href="#_8">不同主机间容器通信</a><ul>
-<li><a href="#_9">安装相应依赖软件</a></li>
-<li><a href="#_10">桥接网络</a><ul>
+<li><a href="#64">6.4、不同主机间容器通信</a><ul>
+<li><a href="#641">6.4.1、安装相应依赖软件</a></li>
+<li><a href="#642">6.4.2、桥接网络</a><ul>
 <li><a href="#br0">启动br0，使桥接生效</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_11">参考文档</a></li>
+<li><a href="#65">6.5、参考文档</a></li>
 </ul>
 </li>
 <li><a href="#docker_5">七、构建docker私有库</a><ul>
-<li><a href="#_12">快速构建</a></li>
-<li><a href="#_13">传统构建方式</a><ul>
-<li><a href="#_14">启动</a></li>
-<li><a href="#_15">提交指定容器到私有库</a></li>
+<li><a href="#71">7.1、快速构建</a></li>
+<li><a href="#72">7.2、传统构建方式</a><ul>
+<li><a href="#721">7.2.1、启动</a></li>
+<li><a href="#722">7.2.2、提交指定容器到私有库</a></li>
 </ul>
 </li>
-<li><a href="#_16">参考</a></li>
+<li><a href="#73">7.3、参考</a></li>
+</ul>
+</li>
+<li><a href="#_2">八、容器数据管理</a><ul>
+<li><a href="#_3">数据卷</a><ul>
+<li><a href="#_4">添加一个数据卷</a></li>
+<li><a href="#_5">挂载宿主机目录为一个数据卷</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -94,7 +102,7 @@
 <li><strong>强大的可移植性</strong>：你可以使用Docker创造一个绑定了你所有你所需要的应用的对象。这个对象可以被转移并被安装在任何一个安装了 Docker 的 Linux 主机上。</li>
 <li><strong>版本控制</strong>： Docker自带git功能，能够跟踪一个容器的成功版本并记录下来，并且可以对不同的版本进行检测，提交新版本，回滚到任意的一个版本等功能等等。</li>
 <li><strong>组件的可重用性</strong>： Docker 允许创建或是套用一个已经存在的包。举个例子，如果你有许多台机器都需要安装 Apache 和 MySQL 数据库，你可以创建一个包含了这两个组件的‘基础镜像’。然后在创建新机器的时候使用这个镜像进行安装就行了。</li>
-<li><strong>可分享的类库</strong>：已经有上千个可用的容器被上传并被分享到一个共有仓库中<a href="http://index.docker.io/">http://index.docker.io/</a>。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。</li>
+<li><strong>可分享的类库</strong>：已经有上千个可用的容器被上传并被分享到一个共有仓库中<a href="https://registry.hub.docker.com/">registry.hub.docker.com</a>。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。</li>
 </ul>
 <blockquote>
 <p>LxC是一个Linux提供的收容功能接口，通过LxC提供的API和简单的工具，使得Linux用户可以简单的创建和管理系统或者应用的空间。<a href="http://www.ibm.com/developerworks/cn/linux/l-lxc-containers/">LXC容器</a></p>
@@ -107,16 +115,6 @@
 </pre></div>
 
 
-<p>Docker并不是全能的，设计之初也不是KVM之类虚拟化手段的替代品：</p>
-<ul>
-<li>Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用</li>
-<li>LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的</li>
-<li>隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库</li>
-<li>网络管理相对简单，主要是基于namespace隔离</li>
-<li>cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量</li>
-<li>docker对disk的管理比较有限</li>
-<li>container随着用户进程的停止而销毁，container中的log等用户数据不便收集</li>
-</ul>
 <p>Docker实践解决方案：</p>
 <ul>
 <li>隔离性：Docker在文件系统和网络级别隔离了应用。从这个意义上来讲很像在运行”真正的“虚拟机。</li>
@@ -135,7 +133,7 @@
 <li><a href="http://www.infoq.com/cn/articles/docker-containers">Docker：利用Linux容器实现可移植的应用部署</a></li>
 </ul>
 <h2 id="docker_2">二、docker 安装配置</h2>
-<h3 id="docker-install">Docker install</h3>
+<h3 id="21docker-install">2.1、Docker install</h3>
 <p>Docker的安装非常简单，这里只介绍Ubuntu 14.04的安装，其他发行版本的安装可以参考官网手册。</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo apt-get update
 <span class="nv">$ </span>sudo apt-get install docker.io
@@ -145,29 +143,30 @@
 
 <p>获取当前docker版本</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker version
-Client version: 0.9.1
+Client version: 1.1.1
+Client API version: 1.13
 Go version <span class="o">(</span>client<span class="o">)</span>: go1.2.1
-Git commit <span class="o">(</span>client<span class="o">)</span>: 3600720
-Server version: 0.9.1
-Git commit <span class="o">(</span>server<span class="o">)</span>: 3600720
+Git commit <span class="o">(</span>client<span class="o">)</span>: bd609d2
+Server version: 1.1.1
+Server API version: 1.13
 Go version <span class="o">(</span>server<span class="o">)</span>: go1.2.1
-Last stable version: 0.11.1, please update docker
+Git commit <span class="o">(</span>server<span class="o">)</span>: bd609d2
 </pre></div>
 
 
 <ul>
 <li><a href="http://docs.docker.io/installation/ubuntulinux/">Docker install on ubuntu</a></li>
 </ul>
-<h2 id="docker-images">Docker images</h2>
+<h2 id="docker-images">三、Docker images</h2>
 <ul>
-<li><a href="https://index.docker.io/">Docker index</a> Docker镜像首页，包括官方镜像和其它公开镜像</li>
+<li><a href="https://registry.hub.docker.com/">Docker index</a> Docker镜像首页，包括官方镜像和其它公开镜像</li>
 </ul>
-<h3 id="search-index-images">Search index images</h3>
+<h3 id="31search-index-images">3.1、Search index images</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker search ubuntu
 </pre></div>
 
 
-<h3 id="pull-images">Pull images</h3>
+<h3 id="32pull-images">3.2、Pull images</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker pull ubuntu <span class="c"># remote index 获取ubuntu官方镜像</span>
 <span class="nv">$ </span>sudo docker images <span class="c"># 查看当前镜像列表</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
@@ -178,7 +177,7 @@ ubuntu              12.04               74fe38d11401        3 weeks ago         
 </pre></div>
 
 
-<h3 id="running-an-interactive-shell">Running an interactive shell</h3>
+<h3 id="33running-an-interactive-shell">3.3、Running an interactive shell</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker run -i -t ubuntu:14.04 /bin/bash
 </pre></div>
 
@@ -197,14 +196,14 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 </pre></div>
 
 
-<h3 id="_1">相关快捷键</h3>
+<h3 id="34">3.4、相关快捷键</h3>
 <ul>
 <li>退出：<code>Ctrl-D</code> or <code>exit</code></li>
 <li>detach：<code>Ctrl-p + Ctrl-q</code></li>
 <li>attach: <code>docker attach CONTAINER ID</code></li>
 </ul>
-<h2 id="docker_3">三、docker常用命令</h2>
-<h3 id="docker-help">docker help</h3>
+<h2 id="docker_3">四、docker常用命令</h2>
+<h3 id="41docker-help">4.1、docker help</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker   <span class="c"># docker命令帮助</span>
 Usage: docker <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>arg...<span class="o">]</span>
  -H<span class="o">=[</span>unix:///var/run/docker.sock<span class="o">]</span>: tcp://host:port to <span class="nb">bind</span>/connect to or unix://path/to/socket to use
@@ -262,20 +261,20 @@ Commands:
 <p>docker选项帮助</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker --help
 Usage of docker:
-  --api-enable-cors<span class="o">=</span><span class="nb">false                </span>Enable CORS headers in the remote API                    <span class="c"># 远程API中开启CORS头</span>
-  -b, --bridge<span class="o">=</span><span class="s2">&quot;&quot;</span>                        Attach containers to a pre-existing network bridge       <span class="c"># 桥接网络</span>
+  --api-enable-cors<span class="o">=</span><span class="nb">false                </span>Enable CORS headers in the remote API                      <span class="c"># 远程API中开启CORS头</span>
+  -b, --bridge<span class="o">=</span><span class="s2">&quot;&quot;</span>                        Attach containers to a pre-existing network bridge         <span class="c"># 桥接网络</span>
                                            use <span class="s1">&#39;none&#39;</span> to disable container networking
   --bip<span class="o">=</span><span class="s2">&quot;&quot;</span>                               Use this CIDR notation address <span class="k">for </span>the network bridge<span class="s1">&#39;s IP, not compatible with -b</span>
 <span class="s1">                                         # 和-b选项不兼容，具体没有测试过</span>
-<span class="s1">  -d, --daemon=false                     Enable daemon mode                                       # daemon模式</span>
-<span class="s1">  -D, --debug=false                      Enable debug mode                                        # debug模式</span>
-<span class="s1">  --dns=[]                               Force docker to use specific DNS servers                 # 强制docker使用指定dns服务器</span>
-<span class="s1">  --dns-search=[]                        Force Docker to use specific DNS search domains          # 强制docker使用指定dns搜索域</span>
-<span class="s1">  -e, --exec-driver=&quot;native&quot;             Force the docker runtime to use a specific exec driver   # 强制docker运行时使用指定执行驱动器</span>
+<span class="s1">  -d, --daemon=false                     Enable daemon mode                                         # daemon模式</span>
+<span class="s1">  -D, --debug=false                      Enable debug mode                                          # debug模式</span>
+<span class="s1">  --dns=[]                               Force docker to use specific DNS servers                   # 强制docker使用指定dns服务器</span>
+<span class="s1">  --dns-search=[]                        Force Docker to use specific DNS search domains            # 强制docker使用指定dns搜索域</span>
+<span class="s1">  -e, --exec-driver=&quot;native&quot;             Force the docker runtime to use a specific exec driver     # 强制docker运行时使用指定执行驱动器</span>
 <span class="s1">  -G, --group=&quot;docker&quot;                   Group to assign the unix socket specified by -H when running in daemon mode</span>
 <span class="s1">                                           use &#39;&#39; (the empty string) to disable setting of a group</span>
-<span class="s1">  -g, --graph=&quot;/var/lib/docker&quot;          Path to use as the root of the docker runtime            # 容器运行的根目录路径</span>
-<span class="s1">  -H, --host=[]                          The socket(s) to bind to in daemon mode                  # daemon模式下docker指定绑定方式[tcp or 本地socket]</span>
+<span class="s1">  -g, --graph=&quot;/var/lib/docker&quot;          Path to use as the root of the docker runtime              # 容器运行的根目录路径</span>
+<span class="s1">  -H, --host=[]                          The socket(s) to bind to in daemon mode                    # daemon模式下docker指定绑定方式[tcp or 本地socket]</span>
 <span class="s1">                                           specified using one or more tcp://host:port, unix:///path/to/socket, fd://* or fd://socketfd.</span>
 <span class="s1">  --icc=true                             Enable inter-container communication                       # 跨容器通信</span>
 <span class="s1">  --ip=&quot;0.0.0.0&quot;                         Default IP address to use when binding container ports     # 指定监听地址，默认所有ip</span>
@@ -297,7 +296,7 @@ Usage of docker:
 </pre></div>
 
 
-<h4 id="docker-search">docker search</h4>
+<h4 id="411docker-search">4.1.1、docker search</h4>
 <p>官方镜像源地址：<a href="https://registry.hub.docker.com/">registry.hub.docker.com</a></p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker search
 
@@ -319,7 +318,7 @@ ubuntu    Official Ubuntu base image   425       <span class="o">[</span>OK<span
 </pre></div>
 
 
-<h4 id="docker-info">docker info</h4>
+<h4 id="412docker-info">4.1.2、docker info</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker info 
 Containers: 7                       <span class="c"># 容器个数</span>
 Images: 102                         <span class="c"># 镜像个数</span>
@@ -332,7 +331,7 @@ WARNING: No swap limit support
 </pre></div>
 
 
-<h4 id="docker-pull-docker-push">docker pull &amp;&amp; docker push</h4>
+<h4 id="413docker-pull-docker-push">4.1.3、docker pull &amp;&amp; docker push</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker pull                  <span class="c"># pull拉取镜像</span>
 
 Usage: docker pull NAME<span class="o">[</span>:TAG<span class="o">]</span>
@@ -360,7 +359,7 @@ Push an image or a repository to the registry
 </pre></div>
 
 
-<h4 id="docker-images_1">四、docker images</h4>
+<h4 id="414docker-images">4.1.4、docker images</h4>
 <p>列出当前系统镜像</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker images -h
 
@@ -387,7 +386,7 @@ ubuntu                     14.04-ssh           6334d3ac099a        7 weeks ago  
 </pre></div>
 
 
-<h4 id="docker-rmi">docker rmi</h4>
+<h4 id="415docker-rmi">4.1.5、docker rmi</h4>
 <p>删除一个或者多个镜像</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker rmi
 
@@ -400,7 +399,7 @@ Remove one or more images
 </pre></div>
 
 
-<h4 id="docker-run">docker run</h4>
+<h4 id="416docker-run">4.1.6、docker run</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker run 
 
 Usage: docker run <span class="o">[</span>OPTIONS<span class="o">]</span> IMAGE <span class="o">[</span>COMMAND<span class="o">]</span> <span class="o">[</span>ARG...<span class="o">]</span>
@@ -438,7 +437,8 @@ Run a <span class="nb">command </span>in a new container
   --sig-proxy<span class="o">=</span><span class="nb">true           </span>Proxify received signals to the process <span class="o">(</span>even in non-tty mode<span class="o">)</span>. SIGCHLD is not proxied. <span class="c"># ？</span>
   -t, --tty<span class="o">=</span><span class="nb">false            </span>Allocate a pseudo-tty                              <span class="c"># 分配伪终端</span>
   -u, --user<span class="o">=</span><span class="s2">&quot;&quot;</span>              Username or UID                                    <span class="c"># 指定运行容器的用户uid或者用户名</span>
-  -v, --volume<span class="o">=[]</span>            Bind mount a volume <span class="o">(</span>e.g., from the host: -v /host:/container, from docker: -v /container<span class="o">)</span>     <span class="c"># 挂载卷[这个会专门章节讲解]</span>
+  -v, --volume<span class="o">=[]</span>            Bind mount a volume <span class="o">(</span>e.g., from the host: -v /host:/container, from docker: -v /container<span class="o">)</span>     
+                             <span class="c"># 挂载卷[这个会专门章节讲解]</span>
   --volumes-from<span class="o">=[]</span>          Mount volumes from the specified container<span class="o">(</span>s<span class="o">)</span>      <span class="c"># 从指定容器挂载卷</span>
   -w, --workdir<span class="o">=</span><span class="s2">&quot;&quot;</span>           Working directory inside the container             <span class="c"># 指定容器工作目录</span>
 </pre></div>
@@ -467,7 +467,8 @@ root@test1:/# <span class="nb">exit</span>
 <blockquote>
 <p>By default all groups have 1024 shares. A group with 100 shares will get a ~10% portion of the CPU time:</p>
 </blockquote>
-<h4 id="docker-startstopkillrestartpauseunpausermcommitinspect">docker start|stop|kill|restart|pause|unpause|rm|commit|inspect</h4>
+<h4 id="417docker-startstopkill">4.1.7、docker start|stop|kill... ...</h4>
+<p>docker <code>start</code>|<code>stop</code>|<code>kill</code>|<code>restart</code>|<code>pause</code>|<code>unpause</code>|<code>rm</code>|<code>commit</code>|<code>inspect</code></p>
 <ul>
 <li>docker start CONTAINER [CONTAINER...] # 运行一个或多个停止的容器</li>
 <li>docker stop CONTAINER [CONTAINER...]  # 停掉一个或多个运行的容器 <code>-t</code>选项可指定超时时间 </li>
@@ -489,7 +490,7 @@ root@test1:/# <span class="nb">exit</span>
 </li>
 <li>docker inspect CONTAINER|IMAGE [CONTAINER|IMAGE...]   # 查看容器或者镜像的详细信息</li>
 </ul>
-<h3 id="_2">参考文档</h3>
+<h3 id="42">4.2、参考文档</h3>
 <ul>
 <li><a href="https://docs.docker.com/reference/run/">Docker Run Reference</a></li>
 </ul>
@@ -501,21 +502,21 @@ root@test1:/# <span class="nb">exit</span>
 
 <p>无论如何，这些ip是基于本地系统的并且容器的端口非本地主机是访问不到的。此外，除了端口只能本地访问外，对于容器的另外一个问题是这些ip在容器每次启动的时候都会改变。</p>
 <p>Docker解决了容器的这两个问题，并且给容器内部服务的访问提供了一个简单而可靠的方法。Docker通过端口绑定主机系统的接口，允许非本地客户端访问容器内部运行的服务。为了简便的使得容器间通信，Docker提供了这种连接机制。</p>
-<h3 id="_3">自动映射端口</h3>
+<h3 id="51">5.1、自动映射端口</h3>
 <p><code>-P</code>使用时需要指定<code>--expose</code>选项，指定需要对外提供服务的端口</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker run -t -P --expose 22 --name server  ubuntu:14.04
 </pre></div>
 
 
 <p>使用<code>docker run -P</code>自动绑定所有对外提供服务的容器端口，映射的端口将会从没有使用的端口池中(49000..49900)自动选择，你可以通过<code>docker ps</code>、<code>docker inspect &lt;container_id&gt;</code>或者<code>docker port &lt;container_id&gt; &lt;port&gt;</code>确定具体的绑定信息。</p>
-<h3 id="_4">绑定端口到指定接口</h3>
+<h3 id="52">5.2、绑定端口到指定接口</h3>
 <p>基本语法</p>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker run -p <span class="o">[([</span>&lt;host_interface&gt;:<span class="o">[</span>host_port<span class="o">]])</span>|<span class="o">(</span>&lt;host_port&gt;<span class="o">)</span>:<span class="o">]</span>&lt;container_port&gt;<span class="o">[</span>/udp<span class="o">]</span> &lt;image&gt; &lt;cmd&gt;
 </pre></div>
 
 
 <p>默认不指定绑定ip则监听所有网络接口。</p>
-<h4 id="tcp">绑定TCP端口</h4>
+<h4 id="521tcp">5.2.1、绑定TCP端口</h4>
 <div class="hlcode"><pre><span class="c"># Bind TCP port 8080 of the container to TCP port 80 on 127.0.0.1 of the host machine.</span>
 <span class="nv">$ </span>sudo docker run -p 127.0.0.1:80:8080 &lt;image&gt; &lt;cmd&gt;
 <span class="c"># Bind TCP port 8080 of the container to a dynamically allocated TCP port on 127.0.0.1 of the host machine.</span>
@@ -527,13 +528,13 @@ root@test1:/# <span class="nb">exit</span>
 </pre></div>
 
 
-<h4 id="udp">绑定UDP端口</h4>
+<h4 id="522udp">5.2.2、绑定UDP端口</h4>
 <div class="hlcode"><pre><span class="c"># Bind UDP port 5353 of the container to UDP port 53 on 127.0.0.1 of the host machine.</span>
 <span class="nv">$ </span>sudo docker run -p 127.0.0.1:53:5353/udp &lt;image&gt; &lt;cmd&gt;
 </pre></div>
 
 
-<h2 id="_5">六、配置网络</h2>
+<h2 id="_1">六、配置网络</h2>
 <p>Docker uses Linux bridge capabilities to provide network connectivity to containers. The docker0 bridge interface is managed by Docker for this purpose. When the Docker daemon starts it :</p>
 <p>Dokcer通过使用Linux桥接提供容器之间的通信，docker0桥接接口的目的就是方便Docker管理。当Docker daemon启动时需要做以下操作：</p>
 <ul>
@@ -542,14 +543,14 @@ root@test1:/# <span class="nb">exit</span>
 <li>picks an IP in the selected range 在确定的范围中选择ip</li>
 <li>assigns this IP to the docker0 bridge 绑定ip到docker0</li>
 </ul>
-<h3 id="_6">列出当前主机网桥</h3>
+<h3 id="61">6.1、列出当前主机网桥</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo brctl show  <span class="c"># brctl工具依赖bridge-utils软件包</span>
 bridge name bridge id STP enabled interfaces
 docker0 8000.000000000000 no
 </pre></div>
 
 
-<h3 id="docker0-ip">查看当前docker0 ip</h3>
+<h3 id="62docker0-ip">6.2、查看当前docker0 ip</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo ifconfig docker0
 docker0 Link encap:Ethernet HWaddr xx:xx:xx:xx:xx:xx
 inet addr:172.17.42.1 Bcast:0.0.0.0 Mask:255.255.0.0
@@ -557,7 +558,7 @@ inet addr:172.17.42.1 Bcast:0.0.0.0 Mask:255.255.0.0
 
 
 <p>在容器运行时，每个容器都会分配一个特定的虚拟机口并桥接到docker0。每个容器都会配置同docker0 ip相同网段的专用ip地址，docker0 的IP地址被用于所有容器的默认网关。</p>
-<h3 id="_7">运行一个容器</h3>
+<h3 id="63">6.3、运行一个容器</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo docker run -t -i -d ubuntu /bin/bash
 52f811c5d3d69edddefc75aff5a4525fc8ba8bcfa1818132f9dc7d4f7c7e78b4
 <span class="nv">$ </span>sudo brctl show
@@ -567,7 +568,7 @@ docker0 8000.fef213db5a66 no vethQCDY1N
 
 
 <p>以上, docker0 扮演着52f811c5d3d6 container这个容器的虚拟接口vethQCDY1N interface桥接的角色。</p>
-<h4 id="ip">使用特定范围的IP</h4>
+<h4 id="631ip">6.3.1、使用特定范围的IP</h4>
 <p>Docker会尝试寻找没有被主机使用的ip段，尽管它适用于大多数情况下，但是它不是万能的，有时候我们还是需要对ip进一步的规划。Docker允许你管理docker0桥接或者通过<code>-b</code>选项自定义桥接网卡，需要安装<code>bridge-utils</code>软件包。</p>
 <p>基本步骤如下：</p>
 <ul>
@@ -606,19 +607,19 @@ Destination Gateway Genmask Flags Metric Ref Use Iface
 </pre></div>
 
 
-<h3 id="_8">不同主机间容器通信</h3>
+<h3 id="64">6.4、不同主机间容器通信</h3>
 <p>不同容器之间的通信可以借助于<code>pipework</code>这个工具：</p>
 <div class="hlcode"><pre><span class="nv">$ </span>git clone https://github.com/jpetazzo/pipework.git
 <span class="nv">$ </span>sudo cp -rp pipework/pipework /usr/local/bin/
 </pre></div>
 
 
-<h4 id="_9">安装相应依赖软件</h4>
+<h4 id="641">6.4.1、安装相应依赖软件</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo apt-get install apring bridge-utils -y
 </pre></div>
 
 
-<h4 id="_10">桥接网络</h4>
+<h4 id="642">6.4.2、桥接网络</h4>
 <p>Ubuntu14.04</p>
 <div class="hlcode"><pre><span class="c"># cat /etc/network/interfaces</span>
 auto lo
@@ -648,21 +649,21 @@ dns-search intranet.123u.com
 </pre></div>
 
 
-<h3 id="_11">参考文档</h3>
+<h3 id="65">6.5、参考文档</h3>
 <ul>
 <li><a href="https://github.com/jpetazzo/pipework/blob/master/README.md">pipework readme</a></li>
 <li><a href="http://peerxu.github.io/blog/2014/04/07/docker-with-openvswitch.html">pipework-docker网络增强工具</a></li>
 </ul>
 <h2 id="docker_5">七、构建docker私有库</h2>
 <p>为方便管理，我们需要对官方的镜像做一些定制，我们可以构建私有的<code>docker registry</code></p>
-<h3 id="_12">快速构建</h3>
+<h3 id="71">7.1、快速构建</h3>
 <p>The fastest way to get running:</p>
 <ul>
 <li>install docker：<code>apt-get install docker.io</code></li>
 <li>run the registry: <code>docker run -p 5000:5000 registry</code></li>
 </ul>
 <p>That will use the official image from the Docker index.[因为国内被墙的原因，速度比较慢，推荐第二种方式]</p>
-<h3 id="_13">传统构建方式</h3>
+<h3 id="72">7.2、传统构建方式</h3>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo apt-get install build-essential python-dev libevent-dev python-pip liblzma-dev
 <span class="nv">$ </span>git clone https://github.com/dotcloud/docker-registry.git
 <span class="nv">$ </span><span class="nb">cd </span>docker-registry/
@@ -672,7 +673,7 @@ dns-search intranet.123u.com
 </pre></div>
 
 
-<h4 id="_14">启动</h4>
+<h4 id="721">7.2.1、启动</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>sudo gunicorn --access-logfile - --debug -k gevent -b 0.0.0.0:5000 <span class="se">\</span>
 -w 1 docker_registry.wsgi:application
 </pre></div>
@@ -684,17 +685,72 @@ dns-search intranet.123u.com
 </pre></div>
 
 
-<h4 id="_15">提交指定容器到私有库</h4>
+<h4 id="722">7.2.2、提交指定容器到私有库</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>docker tag 74fe38d11401 192.168.0.219:5000/ubuntu:12.04
 <span class="nv">$ </span>docker push 192.168.0.219:5000/ubuntu
 </pre></div>
 
 
-<h3 id="_16">参考</h3>
+<h3 id="73">7.3、参考</h3>
 <ul>
 <li><a href="https://github.com/dotcloud/docker-registry">docker-registry readme</a></li>
 <li><a href="http://blog.docker.io/2013/07/how-to-use-your-own-registry/">How to use your own Registry</a></li>
 </ul>
+<h2 id="_2">八、容器数据管理</h2>
+<p>docker管理数据的方式有两种：</p>
+<ul>
+<li>数据卷</li>
+<li>数据卷容器</li>
+</ul>
+<h3 id="_3">数据卷</h3>
+<p>数据库是一个或多个容器专门指定绕过<code>Union File System</code>的目录，为持续性或共享数据提供一些有用的功能：</p>
+<ul>
+<li>数据卷可以在容器间共享和重用</li>
+<li>数据卷数据改变是直接修改的</li>
+<li>数据卷数据改变不会被包括在容器中</li>
+<li>数据卷是持续性的，直到没有容器使用它们</li>
+</ul>
+<h4 id="_4">添加一个数据卷</h4>
+<p>你可以使用<code>-v</code>选项添加一个数据卷，或者可以使用多次<code>-v</code>选项为一个docker容器运行挂载多个数据卷。</p>
+<div class="hlcode"><pre><span class="nv">$ </span>sudo docker run --name data -v /data -t -i centos:6.4 /bin/bash
+<span class="c"># 宿主机/data数据卷绑定到到新建容器，新建容器中会创建/data数据卷</span>
+bash-4.1# ls -ld /data/
+drwxr-xr-x 2 root root 4096 Jul 23 06:59 /data/
+bash-4.1# df -Th
+Filesystem    Type    Size  Used Avail Use% Mounted on
+... ...
+              ext4     91G  4.6G   82G   6% /data
+</pre></div>
+
+
+<p>创建的数据卷可以通过<code>docker inspect</code>获取</p>
+<div class="hlcode"><pre><span class="nv">$ </span>sudo docker inspect data
+... ...
+    <span class="s2">&quot;Volumes&quot;</span>: <span class="o">{</span>
+        <span class="s2">&quot;/data&quot;</span>: <span class="s2">&quot;/var/lib/docker/vfs/dir/151de401d268226f96d824fdf444e77a4500aed74c495de5980c807a2ffb7ea9&quot;</span>
+    <span class="o">}</span>, <span class="c"># 可以看到创建的数据卷宿主机路径</span>
+    <span class="s2">&quot;VolumesRW&quot;</span>: <span class="o">{</span>
+        <span class="s2">&quot;/data1&quot;</span>: <span class="nb">true</span>
+    <span class="o">}</span>
+... ...
+</pre></div>
+
+
+<h4 id="_5">挂载宿主机目录为一个数据卷</h4>
+<p><code>-v</code>选项除了可以创建卷，也可以挂载当前主机的一个目录到容器中。</p>
+<div class="hlcode"><pre><span class="nv">$ </span>sudo docker run --name web -v /source/:/web -t -i centos:6.4 /bin/bash
+bash-4.1# ls -ld /web/
+drwxr-xr-x 2 root root 4096 Jul 23 06:59 /web/
+bash-4.1# df -Th
+... ...
+              ext4     91G  4.6G   82G   6% /web
+bash-4.1# <span class="nb">exit</span>
+</pre></div>
+
+
+<p>默认挂载卷是可读写的，可以在挂载时指定只读</p>
+<div class="hlcode"><pre><span class="nv">$ </span>sudo docker run --rm --name <span class="nb">test</span> -v /source/:/test:ro -t -i centos:6.4 /bin/bash
+</pre></div>
 </div>
 
         </div>

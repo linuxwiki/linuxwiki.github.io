@@ -18,7 +18,7 @@
 <div class="clearfix"></div>
   <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#losf">losf</a><ul>
+<li><a href="#lsof">lsof</a><ul>
 <li><a href="#1lsof">1、通过lsof命令列出所有打开的文件</a></li>
 <li><a href="#2">2、列出特定用户打开的文件</a></li>
 <li><a href="#3">3、查找特定端口运行的进程</a></li>
@@ -41,7 +41,7 @@
 </li>
 </ul>
 </div>
-<h1 id="losf">losf</h1>
+<h1 id="lsof">lsof</h1>
 <p>list open files</p>
 <p>本wiki主要是介绍lsof相关使用方法，原文主要是10个例子的讲解，笔者翻译过程新增了一些实用案例，<a href="http://www.tecmint.com/10-lsof-command-examples-in-linux/">英文原文地址</a> 。</p>
 <p>lsof的意思是'列出打开的文件'，用于找出哪些文件被哪些进程打开或是占用。我们都知道Linux/UNIX的理念就是一切皆文件(包括pipes管道、sockets、directories目录、devices设备等等)。使用lsof命令的原因之一就是，当一个磁盘不能被卸载时，借助lsof这个命令我们可以轻易的识别哪些文件正在被占用。</p>
