@@ -36,7 +36,8 @@
 <li><a href="#45-python-pythonel">4.5 Python: python.el</a></li>
 <li><a href="#46-google-protobuf-buffer-protobuf-mode">4.6 Google Protobuf Buffer: protobuf-mode</a></li>
 <li><a href="#47-c-xcscope-etags-c-mode">4.7 C++开发定制: xcscope + etags + c++-mode</a></li>
-<li><a href="#48-emacs">4.8 Emacs主题</a></li>
+<li><a href="#48">4.8 谷歌翻译</a></li>
+<li><a href="#49-emacs">4.9 Emacs主题</a></li>
 </ul>
 </li>
 <li><a href="#_4">五、学习资源</a><ul>
@@ -145,53 +146,91 @@
 <h1 id="_2">三、通用定制</h1>
 <p>默认的 Emacs 的快捷键有些不好用，比如 <code>C-x C-f</code> 时，没有任何提示。再如窗口切换使用 <code>C-x o</code>，当 Buffer 多时，非常不方便，这一节介绍 Emacs 通用的定制(不针对某种开发/编辑环境)。</p>
 <p>Emacs 的配置文件为 <code>~/.emacs</code>，如果没有就 <code>touch</code> 一个，插件位置一般在 <code>~/.emacs.d</code>，如果没有就 <code>mkdir</code> 一个。Emacs 启动时会加载这些配置(也因此会减慢Emacs的启动速度，建议不要给Emacs装太多的插件，看着花哨但不实用)。</p>
-<p>打开 <code>.emacs</code>，添加如下代码(Lisp):</p>
-<div class="hlcode"><pre><span class="p">(</span><span class="nx">fset</span> <span class="s1">&#39;yes-or-no-p &#39;</span><span class="nx">y</span><span class="na">-or-n-p</span><span class="p">)</span> <span class="p">;</span> <span class="err">用</span> <span class="nx">y</span><span class="p">/</span><span class="nb">n</span> <span class="err">代替</span> <span class="nx">yes</span><span class="p">/</span><span class="nx">no</span>
-<span class="p">(</span><span class="nx">setq</span> <span class="nx">make</span><span class="na">-backup-files</span> <span class="nx">nil</span><span class="p">)</span>  <span class="p">;</span> <span class="err">去掉自动备份，有利有弊，我嫌麻烦，就去掉了</span>
-<span class="p">(</span><span class="nx">setq</span><span class="na">-default</span> <span class="nx">indent</span><span class="na">-tabs-mode</span> <span class="nx">nil</span><span class="p">)</span> <span class="p">;</span> <span class="err">空格代替</span> <span class="nx">tab</span>
-
-<span class="p">(</span><span class="nx">show</span><span class="na">-paren-mode</span> <span class="nb">t</span><span class="p">)</span>           <span class="p">;</span> <span class="err">匹配括号高亮</span>
-<span class="p">;;</span> <span class="err">使用</span> <span class="sb">`%`</span> <span class="err">进行匹配括号跳转</span><span class="p">(</span><span class="err">模仿</span><span class="nx">vim</span><span class="p">),</span> <span class="nx">Emacs</span> <span class="err">的内置的</span> <span class="sb">`C-M-p`</span> <span class="err">和</span> <span class="sb">`C-M-n`</span> <span class="err">是用来做</span>
-<span class="p">;;</span> <span class="err">跳转的，但是这会和很多终端的快捷键冲突。所以一般用不了。</span>
-<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="s2">&quot;%&quot;</span> <span class="s1">&#39;match-paren)</span>
-<span class="s1">(defun match-paren (arg)</span>
-<span class="s1">  &quot;Go to the matching paren if on a paren; otherwise insert %.&quot;</span>
-<span class="s1">  (interactive &quot;p&quot;)</span>
-<span class="s1">  (cond ((looking-at &quot;</span><span class="se">\\</span><span class="s1">s\(&quot;) (forward-list 1) (backward-char 1))</span>
-<span class="s1">    ((looking-at &quot;</span><span class="se">\\</span><span class="s1">s\)&quot;) (forward-char 1) (backward-list 1))</span>
-<span class="s1">    (t (self-insert-command (or arg 1)))))</span>
-
-<span class="s1">;; 括号自动补全和缩进</span>
-<span class="s1">(require &#39;</span><span class="nx">electric</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">electric</span><span class="na">-indent-mode</span> <span class="nb">t</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">electric</span><span class="na">-pair-mode</span> <span class="nb">t</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">electric</span><span class="na">-layout-mode</span> <span class="nb">t</span><span class="p">)</span>
-
-<span class="p">;;</span> <span class="err">保存时删除多余的空白字符</span>
-<span class="p">(</span><span class="nb">add</span><span class="na">-hook</span> <span class="s1">&#39;before-save-hook &#39;</span><span class="nb">delete</span><span class="na">-trailing-whitespace</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">setq</span> <span class="nx">show</span><span class="na">-trailing-whitespace</span> <span class="nb">t</span><span class="p">)</span>
-
-<span class="p">;;</span> <span class="err">优化打开文件和缓冲区切换，这下有提示了</span><span class="o">!</span><span class="p">(</span><span class="nx">ido</span><span class="err">是</span><span class="nx">Emacs</span><span class="err">自带的插件</span><span class="p">)</span>
-<span class="p">(</span><span class="k">require</span> <span class="err">&#39;</span><span class="n">ido</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">ido</span><span class="na">-mode</span> <span class="nb">t</span><span class="p">)</span>
-
-<span class="p">;;</span> <span class="sb">`C-x`</span> <span class="err">配合上下左右箭头，切换窗口</span> 
-<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;C-x &lt;up&gt;&quot;</span><span class="p">)</span> <span class="s1">&#39;windmove-up)</span>
-<span class="s1">(global-set-key (kbd &quot;C-x &lt;down&gt;&quot;) &#39;</span><span class="nx">windmove</span><span class="na">-down</span><span class="p">)</span>
-<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;C-x &lt;right&gt;&quot;</span><span class="p">)</span> <span class="s1">&#39;windmove-right)</span>
-<span class="s1">(global-set-key (kbd &quot;C-x &lt;left&gt;&quot;) &#39;</span><span class="nx">windmove</span><span class="na">-left</span><span class="p">)</span>
-
-<span class="p">;;</span> <span class="err">使用</span> <span class="nx">M</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="nx">...9</span><span class="p">)</span><span class="err">窗口切换，需要下载</span> <span class="nx">windows</span><span class="na">-numbering</span> <span class="err">这个插件，并手动加载</span>
-<span class="p">;;</span> <span class="nx">windows</span><span class="na">-numbering</span> <span class="err">很好用，推荐</span><span class="o">!</span>
-<span class="p">(</span><span class="nb">add</span><span class="na">-to-list</span> <span class="s1">&#39;load-path &quot;~/.emacs.d/lisp/window-numbering.el&quot;)</span>
-<span class="s1">(require &#39;</span><span class="nx">window</span><span class="na">-numbering</span><span class="p">)</span>
-<span class="p">(</span><span class="nx">setq</span> <span class="nx">window</span><span class="na">-numbering-assign-func</span>
-      <span class="p">(</span><span class="nx">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nx">when</span> <span class="p">(</span><span class="nx">equal</span> <span class="p">(</span><span class="nx">buffer</span><span class="na">-name</span><span class="p">)</span> <span class="s2">&quot;*Calculator*&quot;</span><span class="p">)</span> <span class="mi">9</span><span class="p">)))</span>
-<span class="p">(</span><span class="nx">window</span><span class="na">-numbering-mode</span> <span class="mi">1</span><span class="p">)</span>
+<p>用 <code>y/n</code> 代替 <code>yes/no</code>:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">fset</span> <span class="err">&#39;</span><span class="n">yes</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">p</span> <span class="err">&#39;</span><span class="n">y</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">n</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
 
-<p>Tip: <code>M-x eval-buffer</code> 可以使配置文件立即生效，调试非常方便。 </p>
+<p>设置编码为 UTF-8</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">setq</span> <span class="n">locale</span><span class="o">-</span><span class="n">coding</span><span class="o">-</span><span class="n">system</span> <span class="err">&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">(</span><span class="n">set</span><span class="o">-</span><span class="n">terminal</span><span class="o">-</span><span class="n">coding</span><span class="o">-</span><span class="n">system</span> <span class="err">&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">(</span><span class="n">set</span><span class="o">-</span><span class="n">keyboard</span><span class="o">-</span><span class="n">coding</span><span class="o">-</span><span class="n">system</span> <span class="err">&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">(</span><span class="n">set</span><span class="o">-</span><span class="n">selection</span><span class="o">-</span><span class="n">coding</span><span class="o">-</span><span class="n">system</span> <span class="err">&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">(</span><span class="n">prefer</span><span class="o">-</span><span class="n">coding</span><span class="o">-</span><span class="n">system</span> <span class="err">&#39;</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>C-c e</code> 打开 eshell, <code>C-c l</code>清空 eshell:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">defun</span> <span class="n">clear</span><span class="o">-</span><span class="n">eshell</span><span class="o">-</span><span class="n">buffer</span> <span class="p">()</span>
+  <span class="p">(</span><span class="n">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">let</span> <span class="p">((</span><span class="n">inhibit</span><span class="o">-</span><span class="n">read</span><span class="o">-</span><span class="n">only</span> <span class="n">t</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">delete</span><span class="o">-</span><span class="n">region</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">min</span><span class="p">)</span> <span class="p">(</span><span class="n">point</span><span class="o">-</span><span class="n">max</span><span class="p">))))</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;C-c l&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">clear</span><span class="o">-</span><span class="n">eshell</span><span class="o">-</span><span class="n">buffer</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;C-c e&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">eshell</span><span class="p">)</span>
+</pre></div>
+
+
+<p>tab -&gt; 空格:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">setq</span><span class="o">-</span><span class="k">default</span> <span class="n">indent</span><span class="o">-</span><span class="n">tabs</span><span class="o">-</span><span class="n">mode</span> <span class="n">nil</span><span class="p">)</span>
+</pre></div>
+
+
+<p>括号匹配、对齐、补全：</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">show</span><span class="o">-</span><span class="n">paren</span><span class="o">-</span><span class="n">mode</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">electric</span><span class="p">)</span>
+<span class="p">(</span><span class="n">electric</span><span class="o">-</span><span class="n">indent</span><span class="o">-</span><span class="n">mode</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">(</span><span class="n">electric</span><span class="o">-</span><span class="n">pair</span><span class="o">-</span><span class="n">mode</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">(</span><span class="n">electric</span><span class="o">-</span><span class="n">layout</span><span class="o">-</span><span class="n">mode</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+
+<p>保存时删除多余的空白字符:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">add</span><span class="o">-</span><span class="n">hook</span> <span class="err">&#39;</span><span class="n">before</span><span class="o">-</span><span class="n">save</span><span class="o">-</span><span class="n">hook</span> <span class="err">&#39;</span><span class="n">delete</span><span class="o">-</span><span class="n">trailing</span><span class="o">-</span><span class="n">whitespace</span><span class="p">)</span>
+<span class="p">(</span><span class="n">setq</span> <span class="n">show</span><span class="o">-</span><span class="n">trailing</span><span class="o">-</span><span class="n">whitespace</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+
+<p>去掉自动保存和备份:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">setq</span> <span class="k">auto</span><span class="o">-</span><span class="n">save</span><span class="o">-</span><span class="k">default</span> <span class="n">nil</span><span class="p">)</span>
+<span class="p">(</span><span class="n">setq</span> <span class="n">make</span><span class="o">-</span><span class="n">backup</span><span class="o">-</span><span class="n">files</span> <span class="n">nil</span><span class="p">)</span>
+</pre></div>
+
+
+<p>行号:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">setq</span> <span class="n">linum</span><span class="o">-</span><span class="n">format</span> <span class="s">&quot;%3d|&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">linum</span><span class="o">-</span><span class="n">mode</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>自动换行：</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">visual</span><span class="o">-</span><span class="n">line</span><span class="o">-</span><span class="n">mode</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="n">blink</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">mode</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>使用 M-(1,2,3...9)窗口切换(依赖于 windows-numbering 插件):</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">add</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">list</span> <span class="err">&#39;</span><span class="n">load</span><span class="o">-</span><span class="n">path</span> <span class="s">&quot;~/.emacs.d/lisp/window-numbering.el&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">window</span><span class="o">-</span><span class="n">numbering</span><span class="p">)</span>
+<span class="p">(</span><span class="n">setq</span> <span class="n">window</span><span class="o">-</span><span class="n">numbering</span><span class="o">-</span><span class="n">assign</span><span class="o">-</span><span class="n">func</span>
+      <span class="p">(</span><span class="n">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="n">when</span> <span class="p">(</span><span class="n">equal</span> <span class="p">(</span><span class="n">buffer</span><span class="o">-</span><span class="n">name</span><span class="p">)</span> <span class="s">&quot;*Calculator*&quot;</span><span class="p">)</span> <span class="mi">9</span><span class="p">)))</span>
+<span class="p">(</span><span class="n">window</span><span class="o">-</span><span class="n">numbering</span><span class="o">-</span><span class="n">mode</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Mini Buffer 优化(依赖 smex 插件，ido 是 Emacs 自带的):</p>
+<div class="hlcode"><pre><span class="p">;;</span> <span class="n">C</span><span class="o">-</span><span class="n">x</span> <span class="n">f</span><span class="o">/</span><span class="n">b</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">ido</span><span class="p">)</span>
+<span class="p">(</span><span class="n">ido</span><span class="o">-</span><span class="n">mode</span> <span class="n">t</span><span class="p">)</span>
+<span class="p">;;</span> <span class="n">M</span><span class="o">-</span><span class="n">x</span>
+<span class="p">(</span><span class="n">add</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">list</span> <span class="err">&#39;</span><span class="n">load</span><span class="o">-</span><span class="n">path</span> <span class="s">&quot;~/.emacs.d/lisp/smex&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">smex</span><span class="p">)</span>
+<span class="p">(</span><span class="n">smex</span><span class="o">-</span><span class="n">initialize</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;M-x&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">smex</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;M-X&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">smex</span><span class="o">-</span><span class="n">major</span><span class="o">-</span><span class="n">mode</span><span class="o">-</span><span class="n">commands</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Tip:  <code>M-x eval-buffer</code> 可以使配置文件立即生效，调试非常方便。</p>
 <h1 id="_3">四、高级定制</h1>
 <p>这一节针对不同的应用，介绍一些插件。</p>
 <h2 id="41-fill-column-indicator">4.1 代码参考线: <a href="https://github.com/alpaker/Fill-Column-Indicator">fill-column-indicator</a></h2>
@@ -356,7 +395,18 @@
 <ul>
 <li><code>F9</code> : 在头文件和对应源文件之间跳转: <code>(global-set-key [(f9)] 'ff-find-other-file)</code></li>
 </ul>
-<h2 id="48-emacs">4.8 Emacs主题</h2>
+<h2 id="48">4.8 <a href="https://github.com/atykhonov/google-translate.git">谷歌翻译</a></h2>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">add</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">list</span> <span class="err">&#39;</span><span class="n">load</span><span class="o">-</span><span class="n">path</span> <span class="s">&quot;~/.emacs.d/lisp/google-translate&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">google</span><span class="o">-</span><span class="n">translate</span><span class="p">)</span>
+<span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">google</span><span class="o">-</span><span class="n">translate</span><span class="o">-</span><span class="n">smooth</span><span class="o">-</span><span class="n">ui</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="s">&quot;\C-ct&quot;</span> <span class="err">&#39;</span><span class="n">google</span><span class="o">-</span><span class="n">translate</span><span class="o">-</span><span class="n">smooth</span><span class="o">-</span><span class="n">translate</span><span class="p">)</span>
+<span class="p">(</span><span class="n">setq</span> <span class="n">google</span><span class="o">-</span><span class="n">translate</span><span class="o">-</span><span class="n">translation</span><span class="o">-</span><span class="n">directions</span><span class="o">-</span><span class="n">alist</span>
+      <span class="err">&#39;</span><span class="p">((</span><span class="s">&quot;en&quot;</span> <span class="p">.</span> <span class="s">&quot;zh-CN&quot;</span><span class="p">)</span> <span class="p">(</span><span class="s">&quot;zh-CN&quot;</span> <span class="p">.</span> <span class="s">&quot;en&quot;</span><span class="p">)</span> <span class="p">))</span>
+</pre></div>
+
+
+<p><code>C-c t</code> 打开翻译，我指定了英-&gt;中，中-&gt;英两种翻译模式。</p>
+<h2 id="49-emacs">4.9 Emacs主题</h2>
 <p>把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 <code>M-x customize-theme</code> 回车可查看配色效果。确定喜欢的一款注意后在配置文件中添加一行代码就可以啦。</p>
 <p>我一般使用 wombat ，即 <code>(load-theme 'wombat)</code>。</p>
 <h1 id="_4">五、学习资源</h1>
@@ -366,6 +416,7 @@
 </ul>
 <h2 id="52">5.2 网站(博客)</h2>
 <ul>
+<li><a href="http://melpa.milkbox.net/">MELPA</a> : N多插件等你选，同时也可以感受一下 Emacs 的强大。</li>
 <li><a href="http://www.gnu.org/software/emacs/manual/">GNU Emacs Manuals Online</a></li>
 <li><a href="http://emacsredux.com/">Emacs Redux</a></li>
 <li><a href="http://jblevins.org/projects/markdown-mode/">Emacs Markdown Mode</a></li>
