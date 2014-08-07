@@ -25,27 +25,36 @@
 <li><a href="#23">2.3 搜索</a></li>
 <li><a href="#24">2.4 文件操作(缓冲区)</a></li>
 <li><a href="#25-windows">2.5 窗口(WINDOWS)操作</a></li>
+<li><a href="#26">2.6 查阅命令</a></li>
+<li><a href="#27">2.7 代码编辑</a></li>
+<li><a href="#28">2.8 目录操作</a></li>
+<li><a href="#29">2.9 书签</a></li>
+<li><a href="#210-occur">2.10 Occur</a></li>
+<li><a href="#211-dired">2.11 Dired</a></li>
+<li><a href="#212-version-control">2.12 版本控制(Version Control)</a></li>
 </ul>
 </li>
 <li><a href="#_2">三、通用定制</a></li>
 <li><a href="#_3">四、高级定制</a><ul>
 <li><a href="#41-fill-column-indicator">4.1 代码参考线: fill-column-indicator</a></li>
-<li><a href="#42-auto-complete">4.2 代码自动补全: auto-complete</a></li>
+<li><a href="#42">4.2 自动补全:</a><ul>
+<li><a href="#421-auto-complete">4.2.1 auto-complete</a></li>
+<li><a href="#422-company-mode">4.2.2 Company mode</a></li>
+<li><a href="#423-yasnippet">4.2.3 yasnippet</a></li>
+</ul>
+</li>
 <li><a href="#43-highlight-symbol">4.3 相同符号高亮: highlight-symbol</a></li>
 <li><a href="#44-markdown-markdown-mode">4.4 Markdown: markdown-mode</a></li>
 <li><a href="#45-python-pythonel">4.5 Python: python.el</a></li>
 <li><a href="#46-google-protobuf-buffer-protobuf-mode">4.6 Google Protobuf Buffer: protobuf-mode</a></li>
 <li><a href="#47-c-xcscope-etags-c-mode">4.7 C++开发定制: xcscope + etags + c++-mode</a></li>
 <li><a href="#48">4.8 谷歌翻译</a></li>
-<li><a href="#49-emacs">4.9 Emacs主题</a></li>
+<li><a href="#49-expand-region">4.9 Expand region</a></li>
+<li><a href="#410-helm">4.10 Helm ()</a></li>
+<li><a href="#4last-emacs">4.last Emacs主题</a></li>
 </ul>
 </li>
-<li><a href="#_4">五、学习资源</a><ul>
-<li><a href="#51">5.1 视频</a></li>
-<li><a href="#52">5.2 网站(博客)</a></li>
-<li><a href="#53">5.3 参考/扩展资料</a></li>
-</ul>
-</li>
+<li><a href="#_4">五、学习资源</a></li>
 </ul>
 </div>
 <p>世界上有三中程序员，一种是用 Vim 的，一种是用 Emacs 的，另外一种是用其它编辑器的。本文介绍 Emacs 的基本使用。</p>
@@ -60,11 +69,17 @@
 </pre></div>
 
 
+<p>添加 <code>alias em='env TERM=xterm-256color emacs -nw</code> 到 <code>~/.bashrc</code> 中，这样就可以直接用 <code>em</code> 打开 Emacs 了。</p>
 <h1 id="_1">二、基本快捷键</h1>
-<p>这里列出在没有打开任何 mode 的情况下，原生 Emacs 所支持的快捷键(快捷键映射关系: C-&gt;Ctrl, M-&gt;Alt/ESC)。</p>
-<p><code>C-g</code> : 撤销命令(没事多摁几下，我都是没事摁着玩的)
-<code>C-z</code> : 挂起 Emacs
-<code>C-x C-c</code>: 关闭 Emacs</p>
+<p>这里列出在没有打开任何 mode 的情况下，原生 Emacs 所支持的快捷键。</p>
+<ul>
+<li><code>C-</code>: Ctrl 键</li>
+<li><code>M-</code>: Alt/ESC 键,</li>
+<li><code>S-</code>: Shift 键</li>
+<li><code>C-g</code> : 撤销命令(没事多摁几下，我都是没事摁着玩的)</li>
+<li><code>C-z</code> : 挂起 Emacs</li>
+<li><code>C-x C-c</code>: 关闭 Emacs</li>
+</ul>
 <h2 id="21">2.1 光标移动</h2>
 <ul>
 <li><code>C-n</code> : 下一行</li>
@@ -127,13 +142,16 @@
 <h2 id="24">2.4 文件操作(缓冲区)</h2>
 <p>Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你可以在多个文件中来回切换。</p>
 <ul>
-<li><code>C-x f</code> : 打开一个文件</li>
+<li><code>C-x f</code> : 打开一个文件 -&gt; <code>find-file</code></li>
 <li><code>C-x s</code> : 保存</li>
 <li><code>C-x C-w</code> : 另存为</li>
 <li><code>C-x C-v</code> : 关闭当前缓冲区，并打开新文件</li>
 <li><code>C-x C-b</code> : 打开缓冲区列表</li>
-<li><code>C-x b</code> : 切回最近的 buffer</li>
+<li><code>C-x b</code> : 切回最近的 buffer -&gt; <code>switch-to-buffer</code></li>
 <li><code>C-x k</code> : 关闭当前缓冲区</li>
+<li><code>C-x C-b</code>, <code>d</code>, <code>x</code>: 关闭用 d 标记 buffer</li>
+<li><code>M-x find-file-at-point</code> , <code>M-x ffap</code></li>
+<li><code>C-x 5 0</code> : <code>delete-frame</code></li>
 </ul>
 <h2 id="25-windows">2.5 窗口(WINDOWS)操作</h2>
 <ul>
@@ -142,10 +160,65 @@
 <li><code>C-x 3</code> : 垂直切分</li>
 <li><code>C-x o</code> : 切换到另外一个窗口</li>
 <li><code>C-x 0</code> : 关闭当前窗口(并不是删除buffer)</li>
+<li><code>C-x 4 C-f</code> : 在另外一个窗口打开文件 -&gt; <code>find-file-other-window</code></li>
+</ul>
+<h2 id="26">2.6 查阅命令</h2>
+<ul>
+<li><code>M-x man</code> :</li>
+<li><code>M-x info</code> : 所有的 Emacs 手册</li>
+</ul>
+<h2 id="27">2.7 代码编辑</h2>
+<ul>
+<li><code>M-;</code> : 块注释</li>
+</ul>
+<h2 id="28">2.8 目录操作</h2>
+<ul>
+<li><code>M-x dired</code> : 打开一个目录</li>
+</ul>
+<h2 id="29">2.9 书签</h2>
+<ul>
+<li><code>C-x r m</code> : 设置一个书签 -&gt; <code>bookmark-set</code></li>
+<li><code>C-x r b</code> : 跳转到一个书签 -&gt; <code>bookmark-jump</code></li>
+<li><code>C-x r l</code> : 显示所有书签列表, 管理书签的方式和 <code>Direcd</code> 模式一样<ul>
+<li><code>RET</code> : 打开一个书签</li>
+<li><code>p</code>: 前一个书签</li>
+<li><code>n</code>: 后一个书签</li>
+<li><code>s</code> : 保存当前书签到一个文件中</li>
+<li><code>o</code> : 在另外一个窗口中打开文件</li>
+<li><code>r</code> : 重命名书签</li>
+<li><code>d</code> : 标记要删除的书签</li>
+<li><code>x</code> : 执行删除动作</li>
+<li><code>u</code> : 撤销标记</li>
+</ul>
+</li>
+</ul>
+<h2 id="210-occur">2.10 Occur</h2>
+<p>把所有的搜索结果都列到一个名为 <code>*Occur*</code> buffer 中。使用 <code>M-s o</code> 调用 <code>occur</code> 函数，搜索当前文档。</p>
+<ul>
+<li><code>M-g n</code> : 下一个匹配项</li>
+<li><code>M-g p</code> : 上一个匹配项</li>
+<li><code>e</code> : 进入 <code>occur-edit-mode</code>，可以编辑搜索结果</li>
+<li><code>C-c C-c</code> : 退出编辑模式</li>
+<li><code>g</code> : 刷新搜索结果</li>
+</ul>
+<h2 id="211-dired">2.11 Dired</h2>
+<ul>
+<li><code>C-x d</code> : 选个一个目录，在当前窗口打开</li>
+<li><code>C-x 4 d</code> : 选一个目录，在另外一个目录打开</li>
+<li><code>i</code> : 打开子目录</li>
+</ul>
+<h2 id="212-version-control">2.12 版本控制(Version Control)</h2>
+<ul>
+<li><code>C-x v v</code> , <code>M-x vc-next-action</code> : 提交当前文件</li>
+<li><code>C-x v =</code> , <code>M-x vc-diff</code></li>
+<li><code>C-x v ~</code> , <code>M-x vc-revision-other-window</code>: 与指定版本做比较</li>
+<li><code>C-x v l</code> , <code>M-x vc-print-log</code> : 查看日志</li>
+<li><code>C-x v u</code> , <code>M-x vc-revert</code> </li>
+<li><code>C-x v C-h</code> : 查看所有可用的 vc 命令</li>
 </ul>
 <h1 id="_2">三、通用定制</h1>
-<p>默认的 Emacs 的快捷键有些不好用，比如 <code>C-x C-f</code> 时，没有任何提示。再如窗口切换使用 <code>C-x o</code>，当 Buffer 多时，非常不方便，这一节介绍 Emacs 通用的定制(不针对某种开发/编辑环境)。</p>
-<p>Emacs 的配置文件为 <code>~/.emacs</code>，如果没有就 <code>touch</code> 一个，插件位置一般在 <code>~/.emacs.d</code>，如果没有就 <code>mkdir</code> 一个。Emacs 启动时会加载这些配置(也因此会减慢Emacs的启动速度，建议不要给Emacs装太多的插件，看着花哨但不实用)。</p>
+<p>默认的 emacs 的快捷键有些不好用，比如 <code>c-x c-f</code> 时，没有任何提示。再如窗口切换使用 <code>c-x o</code>，当 buffer 多时，非常不方便，这一节介绍 emacs 通用的定制(不针对某种开发/编辑环境)。</p>
+<p>emacs 的配置文件为 <code>~/.emacs</code>，如果没有就 <code>touch</code> 一个，插件位置一般在 <code>~/.emacs.d</code>，如果没有就 <code>mkdir</code> 一个。Emacs 启动时会加载这些配置(也因此会减慢Emacs的启动速度，建议不要给Emacs装太多的插件，看着花哨但不实用)。</p>
 <p>用 <code>y/n</code> 代替 <code>yes/no</code>:</p>
 <div class="hlcode"><pre><span class="p">(</span><span class="n">fset</span> <span class="err">&#39;</span><span class="n">yes</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">p</span> <span class="err">&#39;</span><span class="n">y</span><span class="o">-</span><span class="n">or</span><span class="o">-</span><span class="n">n</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
@@ -230,6 +303,39 @@
 </pre></div>
 
 
+<p>使用 <code>ibuffer</code> 代替默认的 <code>list-buffers</code>:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;C-x C-b&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">ibuffer</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>C-a</code> 跳转到句首，而不是行首:</p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">defun</span> <span class="n">prelude</span><span class="o">-</span><span class="n">move</span><span class="o">-</span><span class="n">beginning</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">line</span> <span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+  <span class="s">&quot;Move point back to indentation of beginning of line.</span>
+
+<span class="n">Move</span> <span class="n">point</span> <span class="n">to</span> <span class="n">the</span> <span class="n">first</span> <span class="n">non</span><span class="o">-</span><span class="n">whitespace</span> <span class="n">character</span> <span class="n">on</span> <span class="n">this</span> <span class="n">line</span><span class="p">.</span>
+<span class="n">If</span> <span class="n">point</span> <span class="n">is</span> <span class="n">already</span> <span class="n">there</span><span class="p">,</span> <span class="n">move</span> <span class="n">to</span> <span class="n">the</span> <span class="n">beginning</span> <span class="n">of</span> <span class="n">the</span> <span class="n">line</span><span class="p">.</span>
+<span class="n">Effectively</span> <span class="n">toggle</span> <span class="n">between</span> <span class="n">the</span> <span class="n">first</span> <span class="n">non</span><span class="o">-</span><span class="n">whitespace</span> <span class="n">character</span> <span class="n">and</span>
+<span class="n">the</span> <span class="n">beginning</span> <span class="n">of</span> <span class="n">the</span> <span class="n">line</span><span class="p">.</span>
+
+<span class="n">If</span> <span class="n">ARG</span> <span class="n">is</span> <span class="n">not</span> <span class="n">nil</span> <span class="n">or</span> <span class="mi">1</span><span class="p">,</span> <span class="n">move</span> <span class="n">forward</span> <span class="n">ARG</span> <span class="o">-</span> <span class="mi">1</span> <span class="n">lines</span> <span class="n">first</span><span class="p">.</span> <span class="n">If</span>
+<span class="n">point</span> <span class="n">reaches</span> <span class="n">the</span> <span class="n">beginning</span> <span class="n">or</span> <span class="n">end</span> <span class="n">of</span> <span class="n">the</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">stop</span> <span class="n">there</span><span class="p">.</span><span class="s">&quot;</span>
+  <span class="p">(</span><span class="n">interactive</span> <span class="s">&quot;^p&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">setq</span> <span class="n">arg</span> <span class="p">(</span><span class="n">or</span> <span class="n">arg</span> <span class="mi">1</span><span class="p">))</span>
+
+  <span class="p">;;</span> <span class="n">Move</span> <span class="n">lines</span> <span class="n">first</span>
+  <span class="p">(</span><span class="n">when</span> <span class="p">(</span><span class="o">/=</span> <span class="n">arg</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">let</span> <span class="p">((</span><span class="n">line</span><span class="o">-</span><span class="n">move</span><span class="o">-</span><span class="n">visual</span> <span class="n">nil</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">forward</span><span class="o">-</span><span class="n">line</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="n">arg</span><span class="p">))))</span>
+
+  <span class="p">(</span><span class="n">let</span> <span class="p">((</span><span class="n">orig</span><span class="o">-</span><span class="n">point</span> <span class="p">(</span><span class="n">point</span><span class="p">)))</span>
+    <span class="p">(</span><span class="n">back</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">indentation</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">when</span> <span class="p">(</span><span class="o">=</span> <span class="n">orig</span><span class="o">-</span><span class="n">point</span> <span class="p">(</span><span class="n">point</span><span class="p">))</span>
+      <span class="p">(</span><span class="n">move</span><span class="o">-</span><span class="n">beginning</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">line</span> <span class="mi">1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;C-a&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">prelude</span><span class="o">-</span><span class="n">move</span><span class="o">-</span><span class="n">beginning</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+
+
 <p>Tip:  <code>M-x eval-buffer</code> 可以使配置文件立即生效，调试非常方便。</p>
 <h1 id="_3">四、高级定制</h1>
 <p>这一节针对不同的应用，介绍一些插件。</p>
@@ -243,8 +349,8 @@
 </pre></div>
 
 
-<h2 id="42-auto-complete">4.2 代码自动补全: <a href="https://github.com/auto-complete/auto-complete">auto-complete</a></h2>
-<p>对于用管IDE的朋友,我要解释一下,这里的自动补全不是类成员提示, =_=!</p>
+<h2 id="42">4.2 自动补全:</h2>
+<h3 id="421-auto-complete">4.2.1 <a href="https://github.com/auto-complete/auto-complete">auto-complete</a></h3>
 <div class="hlcode"><pre><span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">popup</span><span class="p">)</span>
 <span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="k">auto</span><span class="o">-</span><span class="n">complete</span><span class="o">-</span><span class="n">config</span><span class="p">)</span>
 <span class="p">(</span><span class="n">add</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">list</span> <span class="err">&#39;</span><span class="n">ac</span><span class="o">-</span><span class="n">dictionary</span><span class="o">-</span><span class="n">directories</span>
@@ -261,7 +367,8 @@
 </pre></div>
 
 
-<p>auto-complete 和 <a href="https://github.com/capitaomorte/yasnippet">yasnippet</a> 是一对好基友，yasnippet 支持很多语言的语法补全，感兴趣可以尝试一下(我不太喜欢用，感觉会影响加载速度)。</p>
+<h3 id="422-company-mode">4.2.2 <a href="http://www.emacswiki.org/CompanyMode">Company mode</a></h3>
+<h3 id="423-yasnippet">4.2.3 <a href="https://github.com/capitaomorte/yasnippet">yasnippet</a></h3>
 <h2 id="43-highlight-symbol">4.3 相同符号高亮: <a href="https://github.com/nschum/highlight-symbol.el">highlight-symbol</a></h2>
 <p>用这个做查找也挺不错的!</p>
 <div class="hlcode"><pre><span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">highlight</span><span class="o">-</span><span class="n">symbol</span><span class="p">)</span>
@@ -368,7 +475,7 @@
 <li>cscope -r : 在根目录下递归生成数据库</li>
 <li>C-c s a : Set initial directory;</li>
 <li>C-c s A : Unset initial directory;</li>
-<li>C-c c I : create list of files to index;</li>
+<li>C-c s I : create list of files to index;</li>
 <li>C-c s s : Find symbol;</li>
 <li>C-c s d : Find global definition;</li>
 <li>C-c s c : Find functions calling a function;</li>
@@ -406,28 +513,95 @@
 
 
 <p><code>C-c t</code> 打开翻译，我指定了英-&gt;中，中-&gt;英两种翻译模式。</p>
-<h2 id="49-emacs">4.9 Emacs主题</h2>
-<p>把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 <code>M-x customize-theme</code> 回车可查看配色效果。确定喜欢的一款注意后在配置文件中添加一行代码就可以啦。</p>
-<p>我一般使用 wombat ，即 <code>(load-theme 'wombat)</code>。</p>
+<h2 id="49-expand-region">4.9 Expand region</h2>
+<p>Github: <a href="https://github.com/magnars/expand-region.el">expand-region.el</a></p>
+<div class="hlcode"><pre><span class="p">(</span><span class="n">require</span> <span class="err">&#39;</span><span class="n">expand</span><span class="o">-</span><span class="n">region</span><span class="p">)</span>
+<span class="p">(</span><span class="n">global</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">key</span> <span class="p">(</span><span class="n">kbd</span> <span class="s">&quot;M-m&quot;</span><span class="p">)</span> <span class="err">&#39;</span><span class="n">er</span><span class="o">/</span><span class="n">expand</span><span class="o">-</span><span class="n">region</span><span class="p">)</span>
+</pre></div>
+
+
+<h2 id="410-helm">4.10 Helm ()</h2>
+<p>github: <a href="https://github.com/emacs-helm/helm">https://github.com/emacs-helm/helm</a></p>
+<p><strong>极力推荐</strong> 这个插件，对于 Emacs 的基本使用是一个质的提升。安装了 helm 你会发现 ido, smex 神马的简直弱爆了。</p>
+<p>推荐阅读: <a href="http://tuhdo.github.io/helm-intro.html">helm-intro</a> </p>
+<div class="hlcode"><pre><span class="p">(</span><span class="nb">add</span><span class="na">-to-list</span> <span class="s1">&#39;load-path &quot;~/.emacs.d/lisp/helm&quot;)</span>
+<span class="s1">(require &#39;</span><span class="nx">helm</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nx">setq</span> <span class="nx">helm</span><span class="na">-command-prefix-key</span> <span class="s2">&quot;C-c h&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">require</span> <span class="err">&#39;</span><span class="n">helm</span><span class="na">-config</span><span class="p">)</span>
+<span class="p">(</span><span class="k">require</span> <span class="err">&#39;</span><span class="n">helm</span><span class="na">-eshell</span><span class="p">)</span>
+<span class="p">(</span><span class="k">require</span> <span class="err">&#39;</span><span class="n">helm</span><span class="na">-files</span><span class="p">)</span>
+<span class="p">(</span><span class="k">require</span> <span class="err">&#39;</span><span class="n">helm</span><span class="na">-grep</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span><span class="na">-key</span> <span class="nx">helm</span><span class="na">-map</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;&lt;tab&gt;&quot;</span><span class="p">)</span> <span class="s1">&#39;helm-execute-persistent-action) ; rebind tab to do persistent action</span>
+<span class="s1">(define-key helm-map (kbd &quot;C-i&quot;) &#39;</span><span class="nx">helm</span><span class="na">-execute-persistent-action</span><span class="p">)</span> <span class="p">;</span> <span class="nx">make</span> <span class="nx">TAB</span> <span class="n">works</span> <span class="k">in</span> <span class="nx">terminal</span>
+<span class="p">(</span><span class="k">define</span><span class="na">-key</span> <span class="nx">helm</span><span class="na">-map</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;C-z&quot;</span><span class="p">)</span>  <span class="s1">&#39;helm-select-action) ; list actions using C-z</span>
+
+<span class="s1">(define-key helm-grep-mode-map (kbd &quot;&lt;return&gt;&quot;)  &#39;</span><span class="nx">helm</span><span class="na">-grep-mode-jump-other-window</span><span class="p">)</span>
+<span class="p">(</span><span class="k">define</span><span class="na">-key</span> <span class="nx">helm</span><span class="na">-grep-mode-map</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;n&quot;</span><span class="p">)</span>  <span class="s1">&#39;helm-grep-mode-jump-other-window-forward)</span>
+<span class="s1">(define-key helm-grep-mode-map (kbd &quot;p&quot;)  &#39;</span><span class="nx">helm</span><span class="na">-grep-mode-jump-other-window-backward</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nx">setq</span>
+ <span class="nx">helm</span><span class="na">-google-suggest-use-curl-p</span> <span class="nb">t</span>
+ <span class="nx">helm</span><span class="na">-scroll-amount</span> <span class="mi">4</span> <span class="p">;</span> <span class="nx">scroll</span> <span class="mi">4</span> <span class="nx">lines</span> <span class="nx">other</span> <span class="nx">window</span> <span class="nx">using</span> <span class="nx">M</span><span class="o">-&lt;</span><span class="nb">next</span><span class="o">&gt;/</span><span class="nx">M</span><span class="o">-&lt;</span><span class="nx">prior</span><span class="o">&gt;</span>
+ <span class="nx">helm</span><span class="na">-quick-update</span> <span class="nb">t</span> <span class="p">;</span> <span class="k">do</span> <span class="ow">not</span> <span class="nx">display</span> <span class="nx">invisible</span> <span class="nx">candidates</span>
+ <span class="nx">helm</span><span class="na">-idle-delay</span> <span class="mf">0.01</span> <span class="p">;</span> <span class="nx">be</span> <span class="nx">idle</span> <span class="nb">for</span> <span class="nx">this</span> <span class="nx">many</span> <span class="nx">seconds</span><span class="p">,</span> <span class="nx">before</span> <span class="n">updating</span> <span class="k">in</span> <span class="nx">delayed</span> <span class="nx">sources.</span>
+ <span class="nx">helm</span><span class="na">-input-idle-delay</span> <span class="mf">0.01</span> <span class="p">;</span> <span class="nx">be</span> <span class="nx">idle</span> <span class="nb">for</span> <span class="nx">this</span> <span class="nx">many</span> <span class="nx">seconds</span><span class="p">,</span> <span class="nx">before</span> <span class="nx">updating</span> <span class="nx">candidate</span> <span class="nx">buffer</span>
+ <span class="nx">helm</span><span class="na">-ff-search-library-in-sexp</span> <span class="nb">t</span> <span class="p">;</span> <span class="nb">search</span> <span class="nb">for</span> <span class="n">library</span> <span class="k">in</span> <span class="sb">`require&#39; and `</span><span class="nb">declare</span><span class="na">-function</span><span class="s1">&#39; sexp.</span>
+
+<span class="s1"> helm-split-window-default-side &#39;</span><span class="nx">other</span> <span class="p">;;</span> <span class="nb">open</span> <span class="nx">helm</span> <span class="n">buffer</span> <span class="k">in</span> <span class="nx">another</span> <span class="nx">window</span>
+ <span class="nx">helm</span><span class="na">-split-window-in-side-p</span> <span class="nb">t</span> <span class="p">;;</span> <span class="nb">open</span> <span class="nx">helm</span> <span class="nx">buffer</span> <span class="nx">inside</span> <span class="nx">current</span> <span class="nx">window</span><span class="p">,</span> <span class="ow">not</span> <span class="nx">occupy</span> <span class="nx">whole</span> <span class="nx">other</span> <span class="nx">window</span>
+ <span class="nx">helm</span><span class="na">-buffers-favorite-modes</span> <span class="p">(</span><span class="nb">append</span> <span class="nx">helm</span><span class="na">-buffers-favorite-modes</span>
+                                     <span class="s1">&#39;(picture-mode artist-mode))</span>
+<span class="s1"> helm-candidate-number-limit 200 ; limit the number of displayed canidates</span>
+<span class="s1"> helm-M-x-requires-pattern 0     ; show all candidates when set to 0</span>
+<span class="s1"> helm-boring-file-regexp-list</span>
+<span class="s1"> &#39;</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.git$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.hg$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.svn$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.CVS$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">._darcs$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.la$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.o$&quot;</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">.i$&quot;</span><span class="p">)</span> <span class="p">;</span> <span class="k">do</span> <span class="ow">not</span> <span class="nx">show</span> <span class="nx">these</span> <span class="n">files</span> <span class="k">in</span> <span class="nx">helm</span> <span class="nx">buffer</span>
+ <span class="nx">helm</span><span class="na">-ff-file-name-history-use-recentf</span> <span class="nb">t</span>
+ <span class="nx">helm</span><span class="na">-move-to-line-cycle-in-source</span> <span class="nb">t</span> <span class="p">;</span> <span class="nx">move</span> <span class="k">to</span> <span class="nb">end</span> <span class="ow">or</span> <span class="nx">beginning</span> <span class="nx">of</span> <span class="nb">source</span>
+                                        <span class="p">;</span> <span class="nx">when</span> <span class="nx">reaching</span> <span class="nb">top</span> <span class="ow">or</span> <span class="nx">bottom</span> <span class="nx">of</span> <span class="nx">source.</span>
+ <span class="nx">ido</span><span class="na">-use-virtual-buffers</span> <span class="nb">t</span>      <span class="p">;</span> <span class="n">Needed</span> <span class="k">in</span> <span class="nx">helm</span><span class="na">-buffers-list</span>
+ <span class="nx">helm</span><span class="na">-buffers-fuzzy-matching</span> <span class="nb">t</span>          <span class="p">;</span> <span class="nx">fuzzy</span> <span class="nx">matching</span> <span class="nx">buffer</span> <span class="nx">names</span> <span class="nx">when</span> <span class="nx">non</span><span class="o">--</span><span class="nx">nil</span>
+                                        <span class="p">;</span> <span class="n">useful</span> <span class="k">in</span> <span class="nx">helm</span><span class="na">-mini</span> <span class="nx">that</span> <span class="nx">lists</span> <span class="nx">buffers</span>
+ <span class="p">)</span>
+
+<span class="p">;;</span> <span class="nb">Save</span> <span class="nx">current</span> <span class="nb">position</span> <span class="k">to</span> <span class="nx">mark</span> <span class="nx">ring</span> <span class="nx">when</span> <span class="nx">jumping</span> <span class="k">to</span> <span class="nx">a</span> <span class="nx">different</span> <span class="nx">place</span>
+<span class="p">(</span><span class="nb">add</span><span class="na">-hook</span> <span class="s1">&#39;helm-goto-line-before-hook &#39;</span><span class="nx">helm</span><span class="na">-save-current-pos-to-mark-ring</span><span class="p">)</span>
+<span class="p">(</span><span class="nx">helm</span><span class="na">-mode</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;M-x&quot;</span><span class="p">)</span> <span class="s1">&#39;helm-M-x)</span>
+<span class="s1">(global-set-key (kbd &quot;C-x b&quot;) &#39;</span><span class="nx">helm</span><span class="na">-mini</span><span class="p">)</span>
+<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;C-x C-f&quot;</span><span class="p">)</span> <span class="s1">&#39;helm-find-files)</span>
+<span class="s1">(global-set-key (kbd &quot;C-c h o&quot;) &#39;</span><span class="nx">helm</span><span class="na">-occur</span><span class="p">)</span>
+<span class="p">(</span><span class="bp">global</span><span class="na">-set-key</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;M-y&quot;</span><span class="p">)</span> <span class="s1">&#39;helm-show-kill-ring)</span>
+
+<span class="s1">(require &#39;</span><span class="nx">helm</span><span class="na">-eshell</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">add</span><span class="na">-hook</span> <span class="s1">&#39;eshell-mode-hook</span>
+<span class="s1">          #&#39;</span><span class="p">(</span><span class="nx">lambda</span> <span class="p">()</span>
+              <span class="p">(</span><span class="k">define</span><span class="na">-key</span> <span class="nx">eshell</span><span class="na">-mode-map</span> <span class="p">(</span><span class="nx">kbd</span> <span class="s2">&quot;M-l&quot;</span><span class="p">)</span>  <span class="s1">&#39;helm-eshell-history)))</span>
+
+<span class="s1">;; C-c h / helm-find</span>
+<span class="s1">;; C-c h m man or woman</span>
+</pre></div>
+
+
+<h2 id="4last-emacs">4.last Emacs主题</h2>
+<p>把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 <code>M-x customize-theme</code> 回车可查看配色效果。</p>
+<p>也可以在学习资源中的 Emacs Theme 中找一款自己喜欢的。</p>
 <h1 id="_4">五、学习资源</h1>
-<h2 id="51">5.1 视频</h2>
+<p>一些学习资源推荐，也是本文档的参考资料。</p>
 <ul>
-<li><a href="http://www.youtube.com/watch?v=Ib914gNr0ys&amp;feature=share">Emacs as a C/C++ Editor/IDE (Part 3): cedet mode for true intellisense</a></li>
-</ul>
-<h2 id="52">5.2 网站(博客)</h2>
-<ul>
-<li><a href="http://melpa.milkbox.net/">MELPA</a> : N多插件等你选，同时也可以感受一下 Emacs 的强大。</li>
-<li><a href="http://www.gnu.org/software/emacs/manual/">GNU Emacs Manuals Online</a></li>
+<li><a href="http://tuhdo.github.io/index.html">Emacs Mini Mannual</a> : Emacs Mini 手册</li>
+<li><a href="http://emacsthemes.caisah.info/">Emacs Themes</a> : 主题集合</li>
+<li><a href="http://melpa.milkbox.net/">MELPA</a> : 插件集合，同时也可以感受一下 Emacs 的强大</li>
+<li><a href="http://www.gnu.org/software/emacs/manual/">GNU Emacs Manuals Online</a> : Emacs 官方手册</li>
 <li><a href="http://emacsredux.com/">Emacs Redux</a></li>
 <li><a href="http://jblevins.org/projects/markdown-mode/">Emacs Markdown Mode</a></li>
-</ul>
-<h2 id="53">5.3 参考/扩展资料</h2>
-<ul>
 <li><a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-zh.org">一年成为Emacs高手(像神一样使用编辑器)</a></li>
 <li><a href="http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/">Emacs as a Python IDE</a></li>
 <li><a href="http://jianlee.ylinux.org/Computer/Emacs/emacsBFE99F8FE883.html">Emacs快速参考</a></li>
 <li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Case.html">Case Conversion Commands</a></li>
-<li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html">Rectangles</a></li>
 <li><a href="http://www.caole.net/diary/emacs_write_cpp.html">曹乐: 在Emacs下用C/C++编程</a></li>
 </ul>
 </div>
