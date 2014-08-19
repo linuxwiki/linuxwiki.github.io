@@ -140,7 +140,7 @@ pre code {
 }
 
 .toc ul {
+    margin: 0;
     margin-left: -15px;
-    padding-right: 10px;
 }
 

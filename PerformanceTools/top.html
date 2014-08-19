@@ -2,9 +2,9 @@
 <html>
     <head>
         <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
-        <title>top - Linux Wiki</title>
-        <meta name="keywords" content="Net, Performance, Productivity, Security, Service, System"/>
-        <meta name="description" content="A Linux Wiki."/>
+        <title>top - Linux-Wiki</title>
+        <meta name="keywords" content="Linux, NetTools, PerformanceTools, ProductivityTools, SecurityTools, Services, SystemTools"/>
+        <meta name="description" content="A Linux Wiki"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
 
@@ -19,16 +19,16 @@
   <div id="content">
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#top">top</a><ul>
-<li><a href="#top_1">top理论</a></li>
-<li><a href="#top_2">top技巧</a></li>
-<li><a href="#_1">参考</a></li>
+<li><a href="#top_1">一、top理论</a></li>
+<li><a href="#top_2">二、top技巧</a></li>
+<li><a href="#_1">三、参考</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <h1 id="top">top</h1>
 <p><code>top</code>命令是Linux下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况，类似于Windows的任务管理器。</p>
-<h2 id="top_1">top理论</h2>
+<h2 id="top_1">一、top理论</h2>
 <div class="hlcode"><pre><span class="c"># top</span>
 top - 10:52:40 up 3 days, 52 min,  1 user,  load average: 57.28, 112.40, 123.60
 Tasks:  99 total,   1 running,  98 sleeping,   0 stopped,   0 zombie
@@ -45,11 +45,15 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 <table>
 <thead>
 <tr>
-<th align="left">10:52:40</th>
-<th align="left">当前时间</th>
+<th align="left">内容</th>
+<th align="left">解释</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="left">10:52:40</td>
+<td align="left">当前时间</td>
+</tr>
 <tr>
 <td align="left">up 3 days, 52 min</td>
 <td align="left">系统运行时间</td>
@@ -68,11 +72,15 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 <table>
 <thead>
 <tr>
-<th align="left">Tasks:99 total</th>
-<th align="left">进程总数[键入H可查看线程数]</th>
+<th align="left">内容</th>
+<th align="left">解释</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="left">Tasks:99 total</td>
+<td align="left">进程总数[键入H可查看线程数]</td>
+</tr>
 <tr>
 <td align="left">1 running,  98 sleeping,  0 stopped</td>
 <td align="left">正在运行的进程、睡眠进程、停止的进程</td>
@@ -99,11 +107,19 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 <table>
 <thead>
 <tr>
-<th align="left">Mem: 16435896k total, 16232468k used,</th>
-<th align="left">分别是物理内存总量、使用物理内存总量</th>
+<th align="left">内容</th>
+<th align="left">解释</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="left">Mem: 16435896k total, 16232468k used,</td>
+<td align="left">分别是物理内存总量、使用物理内存总量</td>
+</tr>
+<tr>
+<td align="left">:---</td>
+<td align="left">:---</td>
+</tr>
 <tr>
 <td align="left">203428k free, 58004k buffers</td>
 <td align="left">空闲内存总量、用作内核缓存内存量</td>
@@ -135,20 +151,20 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 </blockquote>
 <p>最后1行则是进程相关的资源占用信息:</p>
 <ul>
-<li>PID：进程的ID</li>
-<li>USER：进程所有者</li>
-<li>PR：进程的优先级别，越小越优先被执行</li>
-<li>NI：nice值。负值表示高优先级，正值表示低优先级</li>
-<li>VIRT：进程占用的虚拟内存</li>
-<li>RES：进程占用的物理内存</li>
-<li>SHR：进程使用的共享内存</li>
-<li>S：进程的状态。S表示休眠，R表示正在运行，Z表示僵死状态，N表示该进程优先值为负数</li>
-<li>%CPU：进程占用CPU的使用率</li>
-<li>%MEM：进程使用的物理内存和总内存的百分比</li>
-<li>TIME+：该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。</li>
-<li>COMMAND：进程启动命令名称</li>
+<li><code>PID</code>：进程的ID</li>
+<li><code>USER</code>：进程所有者</li>
+<li><code>PR</code>：进程的优先级别，越小越优先被执行</li>
+<li><code>NI</code>：nice值。负值表示高优先级，正值表示低优先级</li>
+<li><code>VIRT</code>：进程占用的虚拟内存</li>
+<li><code>RES</code>：进程占用的物理内存</li>
+<li><code>SHR</code>：进程使用的共享内存</li>
+<li><code>S</code>：进程的状态。S表示休眠，R表示正在运行，Z表示僵死状态，N表示该进程优先值为负数</li>
+<li><code>%CPU</code>：进程占用CPU的使用率</li>
+<li><code>%MEM</code>：进程使用的物理内存和总内存的百分比</li>
+<li><code>TIME+</code>：该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。</li>
+<li><code>COMMAND</code>：进程启动命令名称</li>
 </ul>
-<h2 id="top_2">top技巧</h2>
+<h2 id="top_2">二、top技巧</h2>
 <p>终端执行top命令之后【也可后接一些选项，比如<code>top -p 1</code>只监控init进程，<code>top -u root</code>只显示root运行进程等等】，可以敲击如下按键，实现不同功能：</p>
 <ul>
 <li><code>h</code>：获取top的命令帮助</li>
@@ -176,7 +192,7 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 <li><code>A</code>：分类显示各种系统资源高的进程。可用于快速识别系统上的性能要求极高的任务，<strong>推荐使用</strong></li>
 <li><code>W</code>[大写]:将当前设置写入<code>~/.toprc</code>文件中。这是写top配置文件的推荐方法</li>
 </ul>
-<h2 id="_1">参考</h2>
+<h2 id="_1">三、参考</h2>
 <ul>
 <li><a href="http://linux.vbird.org/">鸟哥Linux私房菜</a> </li>
 <li><a href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">top - Process Activity Command</a></li>
