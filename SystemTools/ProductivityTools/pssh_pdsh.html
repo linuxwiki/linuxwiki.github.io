@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+        <title>pssh_pdsh - Linux-Wiki</title>
+        <meta name="keywords" content="Linux, NetTools, PerformanceTools, ProductivityTools, SecurityTools, Services, SystemTools"/>
+        <meta name="description" content="A Linux Wiki"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <div id="container">
+<a href="https://github.com/linuxwiki/SourceWiki"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+            
+<div id="header">
+  <div id="post-nav"><a href="/">Home</a>&nbsp;»&nbsp;<a href="/#ProductivityTools">ProductivityTools</a>&nbsp;»&nbsp;pssh_pdsh</div>
+</div>
+<div class="clearfix"></div>
+  <div id="content">
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#pssh-pdsh">pssh &amp;&amp; pdsh</a><ul>
+<li><a href="#pssh">一、pssh</a><ul>
+<li><a href="#11">1.1、安装</a></li>
+<li><a href="#12pssh">1.2、pssh相关参数</a></li>
+<li><a href="#13">1.3、附加工具</a></li>
+<li><a href="#14">1.4、使用实例</a></li>
+<li><a href="#15">1.5、参考文档</a></li>
+</ul>
+</li>
+<li><a href="#pdsh">二、pdsh</a><ul>
+<li><a href="#21pdsh">2.1、pdsh基本用法</a></li>
+<li><a href="#22">2.2、使用实例</a><ul>
+<li><a href="#221">2.2.1、单个主机测试</a></li>
+<li><a href="#222">2.2.2、多个主机测试</a></li>
+<li><a href="#223">2.2.3、逗号分隔主机</a></li>
+<li><a href="#224-x">2.2.4、-x排除某个主机</a></li>
+<li><a href="#225">2.2.5、主机组</a></li>
+<li><a href="#226dshbak">2.2.6、dshbak格式化输出</a></li>
+</ul>
+</li>
+<li><a href="#23">2.3、参考文档</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="pssh-pdsh">pssh &amp;&amp; pdsh</h1>
+<h2 id="pssh">一、pssh</h2>
+<p>pssh是一个python编写可以在多台服务器上执行命令的工具，同时支持拷贝文件，是同类工具中很出色的，类似pdsh 。为方便操作，使用前请在各个服务器上配置好密钥认证访问。项目地址: <a href="https://code.google.com/p/parallel-ssh/">parallel-ssh</a></p>
+<h3 id="11">1.1、安装</h3>
+<div class="hlcode"><pre>wget http://parallel-ssh.googlecode.com/files/pssh-2.3.1.tar.gz
+tar zxvf pssh-2.3.1.tar.gz
+<span class="nb">cd </span>pssh-2.3.1/
+python setup.py install
+</pre></div>
+
+
+<h3 id="12pssh">1.2、pssh相关参数</h3>
+<ul>
+<li>pssh在多个主机上并行地运行命令</li>
+<li>-h 执行命令的远程主机列表,文件内容格式[user@]host[:port]
+        * 如 test@172.16.10.10:229</li>
+<li>-H 执行命令主机，主机格式 user@ip:port </li>
+<li>-l 远程机器的用户名</li>
+<li>-p 一次最大允许多少连接</li>
+<li>-P 执行时输出执行信息</li>
+<li>-o 输出内容重定向到一个文件</li>
+<li>-e 执行错误重定向到一个文件</li>
+<li>-t 设置命令执行超时时间</li>
+<li>-A 提示输入密码并且把密码传递给ssh(如果私钥也有密码也用这个参数)</li>
+<li>-O 设置ssh一些选项</li>
+<li>-x 设置ssh额外的一些参数，可以多个，不同参数间空格分开</li>
+<li>-X 同-x,但是只能设置一个参数</li>
+<li>-i 显示标准输出和标准错误在每台host执行完毕后</li>
+</ul>
+<h3 id="13">1.3、附加工具</h3>
+<ul>
+<li>pscp 传输文件到多个hosts，类似scp<ul>
+<li>pscp -h hosts.txt -l irb2 foo.txt /home/irb2/foo.txt</li>
+</ul>
+</li>
+<li>pslurp 从多台远程机器拷贝文件到本地</li>
+<li>pnuke 并行在远程主机杀进程<ul>
+<li>pnuke -h hosts.txt -l irb2 java</li>
+</ul>
+</li>
+<li>prsync 使用rsync协议从本地计算机同步到远程主机<ul>
+<li>prsync -r -h hosts.txt -l irb2 foo /home/irb2/foo</li>
+</ul>
+</li>
+</ul>
+<h3 id="14">1.4、使用实例</h3>
+<p>写入主机到文件中，语法为<code>用户名@主机ip</code></p>
+<div class="hlcode"><pre><span class="nv">$ </span>cat host.txt 
+root@192.168.230.128
+wul@10.0.0.8
+</pre></div>
+
+
+<p>推荐使用<code>-i</code>选项输出信息而不是<code>-P</code>选项，<code>-h</code>指定定义主机组</p>
+<div class="hlcode"><pre><span class="nv">$ </span>pssh -i -h host.txt <span class="s1">&#39;date&#39;</span>
+<span class="o">[</span>1<span class="o">]</span> 16:32:38 <span class="o">[</span>SUCCESS<span class="o">]</span> root@192.168.230.128
+Mon Aug 12 16:32:38 CST 2013
+<span class="o">[</span>2<span class="o">]</span> 16:32:38 <span class="o">[</span>SUCCESS<span class="o">]</span> wul@10.0.0.8
+Mon Aug 12 16:32:38 CST 2013
+</pre></div>
+
+
+<p><code>-x</code>选项：指定ssh的一些额外选项</p>
+<div class="hlcode"><pre><span class="nv">$ </span>pssh -x <span class="s1">&#39;-t -t -o StrictHostKeyChecking=no&#39;</span> -i -h host.txt date
+<span class="o">[</span>1<span class="o">]</span> 17:20:01 <span class="o">[</span>SUCCESS<span class="o">]</span> root@192.168.230.128
+Mon Aug 12 17:20:01 CST 2013
+Stderr: Connection to 192.168.230.128 closed.
+<span class="o">[</span>2<span class="o">]</span> 17:20:01 <span class="o">[</span>SUCCESS<span class="o">]</span> wul@10.0.0.8
+Mon Aug 12 17:20:01 CST 2013
+Stderr: Connection to 10.0.0.8 closed.
+</pre></div>
+
+
+<p><code>-H</code>选项：指定单个主机</p>
+<div class="hlcode"><pre><span class="nv">$ </span>pssh -x <span class="s1">&#39;-t -t -o StrictHostKeyChecking=no&#39;</span> -i -H 192.168.230.128 -H wul@10.0.0.8 date
+<span class="o">[</span>1<span class="o">]</span> 17:22:58 <span class="o">[</span>SUCCESS<span class="o">]</span> 192.168.230.128
+Mon Aug 12 17:22:58 CST 2013
+Stderr: Connection to 192.168.230.128 closed.
+<span class="o">[</span>2<span class="o">]</span> 17:22:58 <span class="o">[</span>SUCCESS<span class="o">]</span> wul@10.0.0.8
+Mon Aug 12 17:22:58 CST 2013
+Stderr: Connection to 10.0.0.8 closed.
+</pre></div>
+
+
+<h3 id="15">1.5、参考文档</h3>
+<ul>
+<li><a href="http://linux.die.net/man/1/pssh">pssh</a> </li>
+<li><a href="http://www.theether.org/pssh/docs/0.2.3/pssh-HOWTO.html">pssh-howto</a></li>
+</ul>
+<h2 id="pdsh">二、pdsh</h2>
+<p>pdsh(Parallel Distributed SHell)可并行的执行对目标主机的操作，对于批量执行命令和分发任务有很大的帮助，在使用前需要配置ssh无密码登录，<a href="http://sourceforge.net/projects/pdsh/">点击下载</a></p>
+<h3 id="21pdsh">2.1、pdsh基本用法</h3>
+<div class="hlcode"><pre> pdsh -h
+Usage: pdsh <span class="o">[</span>-options<span class="o">]</span> <span class="nb">command</span> ...
+-S                <span class="k">return </span>largest of remote <span class="nb">command </span><span class="k">return </span>values
+-h                output usage menu and quit                获取帮助
+-V                output version information and quit       查看版本
+-q                list the option settings and quit         列出pdsh执行的一些信息
+-b                disable ^C status feature <span class="o">(</span>batch mode<span class="o">)</span>
+-d                <span class="nb">enable </span>extra debug information from ^C status
+-l user           execute remote commands as user           指定远程使用的用户
+-t seconds        <span class="nb">set </span>connect timeout <span class="o">(</span>default is 10 sec<span class="o">)</span>   指定超时时间
+-u seconds        <span class="nb">set command </span>timeout <span class="o">(</span>no default<span class="o">)</span>          类似-t
+-f n              use fanout of n nodes                     设置同时连接的目标主机的个数
+-w host,host,...  <span class="nb">set </span>target node list on <span class="nb">command </span>line      指定主机，host可以是主机名也可以是ip
+-x host,host,...  <span class="nb">set </span>node exclusion list on <span class="nb">command </span>line   排除某些或者某个主机
+-R name           <span class="nb">set </span>rcmd module to name                   指定rcmd的模块名，默认使用ssh
+-N                disable hostname: labels on output lines  输出不显示主机名或者ip
+-L                list info on all loaded modules and <span class="nb">exit</span>  列出pdsh加载的模块信息
+-a                target all nodes                          指定所有的节点
+-g groupname      target hosts in dsh group <span class="s2">&quot;groupname&quot;</span>     指定dsh组名
+-X groupname      exclude hosts in dsh group <span class="s2">&quot;groupname&quot;</span>    排除组，一般和-a连用
+available rcmd modules: <span class="nb">exec</span>,xcpu,ssh <span class="o">(</span>default: ssh<span class="o">)</span>        可用的执行命令模块，默认为ssh
+</pre></div>
+
+
+<h3 id="22">2.2、使用实例</h3>
+<h4 id="221">2.2.1、单个主机测试</h4>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -w 192.168.0.231 -l root uptime
+192.168.0.231:  16:16:11 up 32 days, 22:14, ? users,  load average: 0.10, 0.14, 0.16
+</pre></div>
+
+
+<h4 id="222">2.2.2、多个主机测试</h4>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -w 192.168.0.<span class="o">[</span>231-233<span class="o">]</span> -l root uptime
+192.168.0.233:  16:17:05 up 32 days, 22:17, ? users,  load average: 0.13, 0.12, 0.10
+192.168.0.232:  16:17:05 up 32 days, 22:17, ? users,  load average: 0.45, 0.34, 0.27
+192.168.0.231:  16:17:06 up 32 days, 22:15, ? users,  load average: 0.09, 0.13, 0.15
+</pre></div>
+
+
+<h4 id="223">2.2.3、逗号分隔主机</h4>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -w 192.168.0.231,192.168.0.234 -l root uptime
+192.168.0.234:  16:19:44 up 32 days, 22:19, ? users,  load average: 0.17, 0.21, 0.20
+192.168.0.231:  16:19:44 up 32 days, 22:17, ? users,  load average: 0.29, 0.18, 0.16
+</pre></div>
+
+
+<h4 id="224-x">2.2.4、<code>-x</code>排除某个主机</h4>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -w 192.168.0.<span class="o">[</span>231-233<span class="o">]</span> -x 192.168.0.232 -l root uptime
+192.168.0.233:  16:18:24 up 32 days, 22:19, ? users,  load average: 0.11, 0.12, 0.09
+192.168.0.231:  16:18:25 up 32 days, 22:16, ? users,  load average: 0.11, 0.13, 0.15
+</pre></div>
+
+
+<h4 id="225">2.2.5、主机组</h4>
+<p>对于-g组，把对应的主机写入到<code>/etc/dsh/group/</code>或<code>~/.dsh/group/</code>目录下的文件中即可，文件名就是对应组名</p>
+<div class="hlcode"><pre><span class="nv">$ </span>cat ~/.dsh/group/dsh-test 
+192.168.0.231
+192.168.0.232
+192.168.0.233
+192.168.0.234
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -g dsh-test -l root uptime
+192.168.0.232:  16:21:38 up 32 days, 22:22, ? users,  load average: 0.01, 0.15, 0.21
+192.168.0.231:  16:21:38 up 32 days, 22:19, ? users,  load average: 0.17, 0.16, 0.16
+192.168.0.234:  16:21:39 up 32 days, 22:21, ? users,  load average: 0.15, 0.19, 0.19
+192.168.0.233:  16:21:40 up 32 days, 22:22, ? users,  load average: 0.15, 0.15, 0.10
+</pre></div>
+
+
+<h4 id="226dshbak">2.2.6、<code>dshbak</code>格式化输出</h4>
+<p>pdsh的缺省输出格式为主机名加该主机的输出，在主机或输出多时会比较混乱，可以采用<code>dshbak</code>做一些格式化，让输出更清晰。</p>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -g dsh-test -l root <span class="s1">&#39;date&#39;</span>       <span class="c">#查看哪些主机时间不一样，主机一多，可读性不强</span>
+192.168.0.232: Wed Jun 19 16:24:40 CST 2013
+192.168.0.231: Wed Jun 19 16:24:40 CST 2013
+192.168.0.234: Wed Jun 19 16:24:40 CST 2013
+192.168.0.233: Wed Jun 19 16:24:40 CST 2013
+</pre></div>
+
+
+<p>使用dshbak之后可读性变得好了很多</p>
+<div class="hlcode"><pre><span class="nv">$ </span>pdsh -g dsh-test -l root <span class="s1">&#39;date&#39;</span> | dshbak -c  
+----------------
+192.168.0.<span class="o">[</span>231-232,234<span class="o">]</span>
+----------------
+Wed Jun 19 16:24:18 CST 2013
+----------------
+192.168.0.233
+----------------
+Wed Jun 19 16:24:19 CST 2013
+</pre></div>
+
+
+<h3 id="23">2.3、参考文档</h3>
+<ul>
+<li><a href="https://code.google.com/p/pdsh/wiki/UsingPDSH">Using PDSH</a></li>
+</ul>
+</div>
+
+        </div>
+        <div id="footer">
+            <span>
+                Copyright © 2012-2014 .
+                Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.
+            </span>
+        </div>
+        
+    </body>
+</html>
